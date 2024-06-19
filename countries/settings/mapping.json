@@ -1,0 +1,176 @@
+{
+	"tables": [
+		{
+			"active": true,
+			"sourceFileAddress": "resources/geocode.earth/whosonfirst-data-country-latest/meta/whosonfirst-data-country-latest.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_countries",
+			"useUpsert": true,
+			"uniqueIndex": "country_id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "country_id",
+					"type": "integer"
+				},
+				{
+					"source": "name",
+					"destination": "country_name",
+					"type": "string"
+				},
+				{
+					"source": "iso",
+					"destination": "iso_code",
+					"type": "string"
+				},
+				{
+					"source": "path",
+					"destination": "boundary",
+					"type": "boundary"
+				},
+				{
+					"source": "lastmodified",
+					"destination": "Last_Modified",
+					"type": "unix_timestamp"
+				},
+				{
+					"source": "geom_hash",
+					"destination": "geo_hash",
+					"type": "string"
+				},
+				{
+					"source": "geom_latitude",
+					"destination": "geo_latitude",
+					"type": "double"
+				},
+				{
+					"source": "geom_longitude",
+					"destination": "geo_longitude",
+					"type": "double"
+				},
+				{
+					"source": "lbl_latitude",
+					"destination": "lbl_latitude",
+					"type": "number"
+				},
+				{
+					"source": "lbl_longitude",
+					"destination": "lbl_longitude",
+					"type": "number"
+				},
+				{
+					"source": "bbox",
+					"destination": "min_latitude",
+					"type": "min_latitude"
+				},
+				{
+					"source": "bbox",
+					"destination": "min_longitude",
+					"type": "min_longitude"
+				},
+				{
+					"source": "bbox",
+					"destination": "max_latitude",
+					"type": "max_latitude"
+				},
+				{
+					"source": "bbox",
+					"destination": "max_longitude",
+					"type": "max_longitude"
+				},
+				{
+					"source": "cessation",
+					"destination": "cessation",
+					"type": "tilda-date"
+				},
+				{
+					"source": "deprecated",
+					"destination": "deprecated",
+					"type": "tilda-date"
+				},
+				{
+					"source": "wof_country",
+					"destination": "new_country",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/github.com/country-codes.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_countries",
+			"useUpsert": false,
+			"uniqueIndex": "iso_code",
+			"truncateBeforeInsert": false,
+			"columns": [				
+				{
+					"source": "ISO3166-1-Alpha-3",
+					"destination": "iso_long_code",
+					"type": "string"
+				},
+				{
+					"source": "Dial",
+					"destination": "dial_code",
+					"type": "string"
+				},
+				{
+					"source": "Continent",
+					"destination": "continent",
+					"type": "string"
+				},
+				{
+					"source": "Languages",
+					"destination": "languages",
+					"type": "string"
+				},
+				{
+					"source": "ISO3166-1-Alpha-2",
+					"destination": "iso_code",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/github.com/capital_currency_continent.json",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_countries",
+			"useUpsert": false,
+			"uniqueIndex": "iso_code",
+			"truncateBeforeInsert": false,
+			"columns": [				
+				{
+					"source": "currencyCode",
+					"destination": "currency_code",
+					"type": "string"
+				},
+				{
+					"source": "capital",
+					"destination": "capital",
+					"type": "string"
+				},
+				{
+					"source": "continentName",
+					"destination": "continent_name",
+					"type": "string"
+				},
+				{
+					"source": "countryCode",
+					"destination": "iso_code",
+					"type": "string"
+				}
+			]
+		}
+	]
+}

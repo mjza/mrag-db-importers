@@ -1,0 +1,252 @@
+Dial,ISO3166-1-Alpha-3,ISO3166-1-Alpha-2,Capital,Continent,Languages
+886,TWN,TW,Taipei,AS,"zh-TW,zh,nan,hak"
+93,AFG,AF,Kabul,AS,"fa-AF,ps,uz-AF,tk"
+355,ALB,AL,Tirana,EU,"sq,el"
+213,DZA,DZ,Algiers,AF,ar-DZ
+1-684,ASM,AS,Pago Pago,OC,"en-AS,sm,to"
+376,AND,AD,Andorra la Vella,EU,ca
+244,AGO,AO,Luanda,AF,pt-AO
+1-264,AIA,AI,The Valley,NA,en-AI
+672,ATA,AQ,,AN,
+1-268,ATG,AG,St. John's,NA,en-AG
+54,ARG,AR,Buenos Aires,SA,"es-AR,en,it,de,fr,gn"
+374,ARM,AM,Yerevan,AS,hy
+297,ABW,AW,Oranjestad,NA,"nl-AW,pap,es,en"
+61,AUS,AU,Canberra,OC,en-AU
+43,AUT,AT,Vienna,EU,"de-AT,hr,hu,sl"
+994,AZE,AZ,Baku,AS,"az,ru,hy"
+1-242,BHS,BS,Nassau,NA,en-BS
+973,BHR,BH,Manama,AS,"ar-BH,en,fa,ur"
+880,BGD,BD,Dhaka,AS,"bn-BD,en"
+1-246,BRB,BB,Bridgetown,NA,en-BB
+375,BLR,BY,Minsk,EU,"be,ru"
+32,BEL,BE,Brussels,EU,"nl-BE,fr-BE,de-BE"
+501,BLZ,BZ,Belmopan,NA,"en-BZ,es"
+229,BEN,BJ,Porto-Novo,AF,fr-BJ
+1-441,BMU,BM,Hamilton,NA,"en-BM,pt"
+975,BTN,BT,Thimphu,AS,dz
+591,BOL,BO,Sucre,SA,"es-BO,qu,ay"
+599,BES,BQ,,NA,"nl,pap,en"
+387,BIH,BA,Sarajevo,EU,"bs,hr-BA,sr-BA"
+267,BWA,BW,Gaborone,AF,"en-BW,tn-BW"
+47,BVT,BV,,AN,
+55,BRA,BR,Brasilia,SA,"pt-BR,es,en,fr"
+246,IOT,IO,Diego Garcia,AS,en-IO
+1-284,VGB,VG,Road Town,NA,en-VG
+673,BRN,BN,Bandar Seri Begawan,AS,"ms-BN,en-BN"
+359,BGR,BG,Sofia,EU,"bg,tr-BG,rom"
+226,BFA,BF,Ouagadougou,AF,"fr-BF,mos"
+257,BDI,BI,Bujumbura,AF,"fr-BI,rn"
+238,CPV,CV,Praia,AF,pt-CV
+855,KHM,KH,Phnom Penh,AS,"km,fr,en"
+237,CMR,CM,Yaounde,AF,"en-CM,fr-CM"
+1,CAN,CA,Ottawa,NA,"en-CA,fr-CA,iu"
+1-345,CYM,KY,George Town,NA,en-KY
+236,CAF,CF,Bangui,AF,"fr-CF,sg,ln,kg"
+235,TCD,TD,N'Djamena,AF,"fr-TD,ar-TD,sre"
+56,CHL,CL,Santiago,SA,es-CL
+86,CHN,CN,Beijing,AS,"zh-CN,yue,wuu,dta,ug,za"
+852,HKG,HK,Hong Kong,AS,"zh-HK,yue,zh,en"
+853,MAC,MO,Macao,AS,"zh,zh-MO,pt"
+61,CXR,CX,Flying Fish Cove,OC,"en,zh,ms-CC"
+61,CCK,CC,West Island,AS,"ms-CC,en"
+57,COL,CO,Bogota,SA,es-CO
+269,COM,KM,Moroni,AF,"ar,fr-KM"
+242,COG,CG,Brazzaville,AF,"fr-CG,kg,ln-CG"
+682,COK,CK,Avarua,OC,"en-CK,mi"
+506,CRI,CR,San Jose,NA,"es-CR,en"
+385,HRV,HR,Zagreb,EU,"hr-HR,sr"
+53,CUB,CU,Havana,NA,"es-CU,pap"
+599,CUW,CW, Willemstad,NA,"nl,pap"
+357,CYP,CY,Nicosia,EU,"el-CY,tr-CY,en"
+420,CZE,CZ,Prague,EU,"cs,sk"
+225,CIV,CI,Yamoussoukro,AF,fr-CI
+850,PRK,KP,Pyongyang,AS,ko-KP
+243,COD,CD,Kinshasa,AF,"fr-CD,ln,ktu,kg,sw,lua"
+45,DNK,DK,Copenhagen,EU,"da-DK,en,fo,de-DK"
+253,DJI,DJ,Djibouti,AF,"fr-DJ,ar,so-DJ,aa"
+1-767,DMA,DM,Roseau,NA,en-DM
+"1-809,1-829,1-849",DOM,DO,Santo Domingo,NA,es-DO
+593,ECU,EC,Quito,SA,es-EC
+20,EGY,EG,Cairo,AF,"ar-EG,en,fr"
+503,SLV,SV,San Salvador,NA,es-SV
+240,GNQ,GQ,Malabo,AF,"es-GQ,fr"
+291,ERI,ER,Asmara,AF,"aa-ER,ar,tig,kun,ti-ER"
+372,EST,EE,Tallinn,EU,"et,ru"
+268,SWZ,SZ,Mbabane,AF,"en-SZ,ss-SZ"
+251,ETH,ET,Addis Ababa,AF,"am,en-ET,om-ET,ti-ET,so-ET,sid"
+500,FLK,FK,Stanley,SA,en-FK
+298,FRO,FO,Torshavn,EU,"fo,da-FO"
+679,FJI,FJ,Suva,OC,"en-FJ,fj"
+358,FIN,FI,Helsinki,EU,"fi-FI,sv-FI,smn"
+33,FRA,FR,Paris,EU,"fr-FR,frp,br,co,ca,eu,oc"
+594,GUF,GF,Cayenne,SA,fr-GF
+689,PYF,PF,Papeete,OC,"fr-PF,ty"
+262,ATF,TF,Port-aux-Francais,AN,fr
+241,GAB,GA,Libreville,AF,fr-GA
+220,GMB,GM,Banjul,AF,"en-GM,mnk,wof,wo,ff"
+995,GEO,GE,Tbilisi,AS,"ka,ru,hy,az"
+49,DEU,DE,Berlin,EU,de
+233,GHA,GH,Accra,AF,"en-GH,ak,ee,tw"
+350,GIB,GI,Gibraltar,EU,"en-GI,es,it,pt"
+30,GRC,GR,Athens,EU,"el-GR,en,fr"
+299,GRL,GL,Nuuk,NA,"kl,da-GL,en"
+1-473,GRD,GD,St. George's,NA,en-GD
+590,GLP,GP,Basse-Terre,NA,fr-GP
+1-671,GUM,GU,Hagatna,OC,"en-GU,ch-GU"
+502,GTM,GT,Guatemala City,NA,es-GT
+44,GGY,GG,St Peter Port,EU,"en,nrf"
+224,GIN,GN,Conakry,AF,fr-GN
+245,GNB,GW,Bissau,AF,"pt-GW,pov"
+592,GUY,GY,Georgetown,SA,en-GY
+509,HTI,HT,Port-au-Prince,NA,"ht,fr-HT"
+672,HMD,HM,,AN,
+37,VAT,VA,Vatican City,EU,"la,it,fr"
+504,HND,HN,Tegucigalpa,NA,"es-HN,cab,miq"
+36,HUN,HU,Budapest,EU,hu-HU
+354,ISL,IS,Reykjavik,EU,"is,en,de,da,sv,no"
+91,IND,IN,New Delhi,AS,"en-IN,hi,bn,te,mr,ta,ur,gu,kn,ml,or,pa,as,bh,sat,ks,ne,sd,kok,doi,mni,sit,sa,fr,lus,inc"
+62,IDN,ID,Jakarta,AS,"id,en,nl,jv"
+98,IRN,IR,Tehran,AS,"fa-IR,ku"
+964,IRQ,IQ,Baghdad,AS,"ar-IQ,ku,hy"
+353,IRL,IE,Dublin,EU,"en-IE,ga-IE"
+44,IMN,IM,Douglas,EU,"en,gv"
+972,ISR,IL,Jerusalem,AS,"he,ar-IL,en-IL,"
+39,ITA,IT,Rome,EU,"it-IT,de-IT,fr-IT,sc,ca,co,sl"
+1-876,JAM,JM,Kingston,NA,en-JM
+81,JPN,JP,Tokyo,AS,ja
+44,JEY,JE,Saint Helier,EU,"en,fr,nrf"
+962,JOR,JO,Amman,AS,"ar-JO,en"
+7,KAZ,KZ,Astana,AS,"kk,ru"
+254,KEN,KE,Nairobi,AF,"en-KE,sw-KE"
+686,KIR,KI,Tarawa,OC,"en-KI,gil"
+965,KWT,KW,Kuwait City,AS,"ar-KW,en"
+996,KGZ,KG,Bishkek,AS,"ky,uz,ru"
+856,LAO,LA,Vientiane,AS,"lo,fr,en"
+371,LVA,LV,Riga,EU,"lv,ru,lt"
+961,LBN,LB,Beirut,AS,"ar-LB,fr-LB,en,hy"
+266,LSO,LS,Maseru,AF,"en-LS,st,zu,xh"
+231,LBR,LR,Monrovia,AF,en-LR
+218,LBY,LY,Tripoli,AF,"ar-LY,it,en"
+423,LIE,LI,Vaduz,EU,de-LI
+370,LTU,LT,Vilnius,EU,"lt,ru,pl"
+352,LUX,LU,Luxembourg,EU,"lb,de-LU,fr-LU"
+261,MDG,MG,Antananarivo,AF,"fr-MG,mg"
+265,MWI,MW,Lilongwe,AF,"ny,yao,tum,swk"
+60,MYS,MY,Kuala Lumpur,AS,"ms-MY,en,zh,ta,te,ml,pa,th"
+960,MDV,MV,Male,AS,"dv,en"
+223,MLI,ML,Bamako,AF,"fr-ML,bm"
+356,MLT,MT,Valletta,EU,"mt,en-MT"
+692,MHL,MH,Majuro,OC,"mh,en-MH"
+596,MTQ,MQ,Fort-de-France,NA,fr-MQ
+222,MRT,MR,Nouakchott,AF,"ar-MR,fuc,snk,fr,mey,wo"
+230,MUS,MU,Port Louis,AF,"en-MU,bho,fr"
+262,MYT,YT,Mamoudzou,AF,fr-YT
+52,MEX,MX,Mexico City,NA,es-MX
+691,FSM,FM,Palikir,OC,"en-FM,chk,pon,yap,kos,uli,woe,nkr,kpg"
+377,MCO,MC,Monaco,EU,"fr-MC,en,it"
+976,MNG,MN,Ulan Bator,AS,"mn,ru"
+382,MNE,ME,Podgorica,EU,"sr,hu,bs,sq,hr,rom"
+1-664,MSR,MS,Plymouth,NA,en-MS
+212,MAR,MA,Rabat,AF,"ar-MA,ber,fr"
+258,MOZ,MZ,Maputo,AF,"pt-MZ,vmw"
+95,MMR,MM,Nay Pyi Taw,AS,my
+264,NAM,NA,Windhoek,AF,"en-NA,af,de,hz,naq"
+674,NRU,NR,Yaren,OC,"na,en-NR"
+977,NPL,NP,Kathmandu,AS,"ne,en"
+31,NLD,NL,Amsterdam,EU,"nl-NL,fy-NL"
+687,NCL,NC,Noumea,OC,fr-NC
+64,NZL,NZ,Wellington,OC,"en-NZ,mi"
+505,NIC,NI,Managua,NA,"es-NI,en"
+227,NER,NE,Niamey,AF,"fr-NE,ha,kr,dje"
+234,NGA,NG,Abuja,AF,"en-NG,ha,yo,ig,ff"
+683,NIU,NU,Alofi,OC,"niu,en-NU"
+672,NFK,NF,Kingston,OC,en-NF
+1-670,MNP,MP,Saipan,OC,"fil,tl,zh,ch-MP,en-MP"
+47,NOR,NO,Oslo,EU,"no,nb,nn,se,fi"
+968,OMN,OM,Muscat,AS,"ar-OM,en,bal,ur"
+92,PAK,PK,Islamabad,AS,"ur-PK,en-PK,pa,sd,ps,brh"
+680,PLW,PW,Melekeok,OC,"pau,sov,en-PW,tox,ja,fil,zh"
+507,PAN,PA,Panama City,NA,"es-PA,en"
+675,PNG,PG,Port Moresby,OC,"en-PG,ho,meu,tpi"
+595,PRY,PY,Asuncion,SA,"es-PY,gn"
+51,PER,PE,Lima,SA,"es-PE,qu,ay"
+63,PHL,PH,Manila,AS,"tl,en-PH,fil,ceb,tgl,ilo,hil,war,pam,bik,bcl,pag,mrw,tsg,mdh,cbk,krj,sgd,msb,akl,ibg,yka,mta,abx"
+870,PCN,PN,Adamstown,OC,en-PN
+48,POL,PL,Warsaw,EU,pl
+351,PRT,PT,Lisbon,EU,"pt-PT,mwl"
+1,PRI,PR,San Juan,NA,"en-PR,es-PR"
+974,QAT,QA,Doha,AS,"ar-QA,es"
+82,KOR,KR,Seoul,AS,"ko-KR,en"
+373,MDA,MD,Chisinau,EU,"ro,ru,gag,tr"
+40,ROU,RO,Bucharest,EU,"ro,hu,rom"
+7,RUS,RU,Moscow,EU,"ru,tt,xal,cau,ady,kv,ce,tyv,cv,udm,tut,mns,bua,myv,mdf,chm,ba,inh,tut,kbd,krc,av,sah,nog"
+250,RWA,RW,Kigali,AF,"rw,en-RW,fr-RW,sw"
+262,REU,RE,Saint-Denis,AF,fr-RE
+590,BLM,BL,Gustavia,NA,fr
+290,SHN,SH,Jamestown,AF,en-SH
+1-869,KNA,KN,Basseterre,NA,en-KN
+1-758,LCA,LC,Castries,NA,en-LC
+590,MAF,MF,Marigot,NA,fr
+508,SPM,PM,Saint-Pierre,NA,fr-PM
+1-784,VCT,VC,Kingstown,NA,"en-VC,fr"
+685,WSM,WS,Apia,OC,"sm,en-WS"
+378,SMR,SM,San Marino,EU,it-SM
+239,STP,ST,Sao Tome,AF,pt-ST
+966,SAU,SA,Riyadh,AS,ar-SA
+221,SEN,SN,Dakar,AF,"fr-SN,wo,fuc,mnk"
+381,SRB,RS,Belgrade,EU,"sr,hu,bs,rom"
+248,SYC,SC,Victoria,AF,"en-SC,fr-SC"
+232,SLE,SL,Freetown,AF,"en-SL,men,tem"
+65,SGP,SG,Singapore,AS,"cmn,en-SG,ms-SG,ta-SG,zh-SG"
+1-721,SXM,SX,Philipsburg,NA,"nl,en"
+421,SVK,SK,Bratislava,EU,"sk,hu"
+386,SVN,SI,Ljubljana,EU,"sl,sh"
+677,SLB,SB,Honiara,OC,"en-SB,tpi"
+252,SOM,SO,Mogadishu,AF,"so-SO,ar-SO,it,en-SO"
+27,ZAF,ZA,Pretoria,AF,"zu,xh,af,nso,en-ZA,tn,st,ts,ss,ve,nr"
+500,SGS,GS,Grytviken,AN,en
+211,SSD,SS,Juba,AF,en
+34,ESP,ES,Madrid,EU,"es-ES,ca,gl,eu,oc"
+94,LKA,LK,Colombo,AS,"si,ta,en"
+970,PSE,PS,East Jerusalem,AS,ar-PS
+249,SDN,SD,Khartoum,AF,"ar-SD,en,fia"
+597,SUR,SR,Paramaribo,SA,"nl-SR,en,srn,hns,jv"
+47,SJM,SJ,Longyearbyen,EU,"no,ru"
+46,SWE,SE,Stockholm,EU,"sv-SE,se,sma,fi-SE"
+41,CHE,CH,Bern,EU,"de-CH,fr-CH,it-CH,rm"
+963,SYR,SY,Damascus,AS,"ar-SY,ku,hy,arc,fr,en"
+992,TJK,TJ,Dushanbe,AS,"tg,ru"
+66,THA,TH,Bangkok,AS,"th,en"
+389,MKD,MK,Skopje,EU,"mk,sq,tr,rmm,sr"
+670,TLS,TL,Dili,OC,"tet,pt-TL,id,en"
+228,TGO,TG,Lome,AF,"fr-TG,ee,hna,kbp,dag,ha"
+690,TKL,TK,,OC,"tkl,en-TK"
+676,TON,TO,Nuku'alofa,OC,"to,en-TO"
+1-868,TTO,TT,Port of Spain,NA,"en-TT,hns,fr,es,zh"
+216,TUN,TN,Tunis,AF,"ar-TN,fr"
+90,TUR,TR,Ankara,AS,"tr-TR,ku,diq,az,av"
+993,TKM,TM,Ashgabat,AS,"tk,ru,uz"
+1-649,TCA,TC,Cockburn Town,NA,en-TC
+688,TUV,TV,Funafuti,OC,"tvl,en,sm,gil"
+256,UGA,UG,Kampala,AF,"en-UG,lg,sw,ar"
+380,UKR,UA,Kyiv,EU,"uk,ru-UA,rom,pl,hu"
+971,ARE,AE,Abu Dhabi,AS,"ar-AE,fa,en,hi,ur"
+44,GBR,GB,London,EU,"en-GB,cy-GB,gd"
+255,TZA,TZ,Dodoma,AF,"sw-TZ,en,ar"
+1,UMI,UM,,OC,en-UM
+1-340,VIR,VI,Charlotte Amalie,NA,en-VI
+1,USA,US,Washington,NA,"en-US,es-US,haw,fr"
+598,URY,UY,Montevideo,SA,es-UY
+998,UZB,UZ,Tashkent,AS,"uz,ru,tg"
+678,VUT,VU,Port Vila,OC,"bi,en-VU,fr-VU"
+58,VEN,VE,Caracas,SA,es-VE
+84,VNM,VN,Hanoi,AS,"vi,en,fr,zh,km"
+681,WLF,WF,Mata Utu,OC,"wls,fud,fr-WF"
+212,ESH,EH,El-Aaiun,AF,"ar,mey"
+967,YEM,YE,Sanaa,AS,ar-YE
+260,ZMB,ZM,Lusaka,AF,"en-ZM,bem,loz,lun,lue,ny,toi"
+263,ZWE,ZW,Harare,AF,"en-ZW,sn,nr,nd"
+358,ALA,AX,Mariehamn,EU,sv-AX
+383,XXK,XK,Pristina,EU,"bs,tr,ro"
+252,XXS,XS,Hargeisa,AF,"so,ar"

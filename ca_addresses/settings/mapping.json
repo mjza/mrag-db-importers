@@ -1,0 +1,944 @@
+{
+	"tables": [
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_AB_v1/ODA_AB_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": true,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Alberta",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_BC_v1/ODA_BC_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "British Columbia",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_MB_v1/ODA_MB_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Manitoba",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_NB_v1/ODA_NB_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "New Brunswick",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_NS_v1/ODA_NS_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Nova Scotia",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_NT_v1/ODA_NT_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Northwest Territories",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_ON_v1/ODA_ON_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Ontario",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_PE_v1/ODA_PE_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Prince Edward Island",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_QC_v1/ODA_QC_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Quebec",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/ODA_SK_v1/ODA_SK_v1.csv",
+			"sourceTable": "",
+			"selectWhereCondition": "",
+			"selectOrderBy": "",
+			"selectGroupBy": "",
+			"useUpsert": true,
+			"destinationTable": "mrag_ca_addresses",
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "string"
+				},
+				{
+					"source": "group_id",
+					"destination": "group_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "str_name",
+					"destination": "street_name",
+					"type": "string"
+				},
+				{
+					"source": "str_type",
+					"destination": "street_type",
+					"type": "string"
+				},
+				{
+					"source": "str_dir",
+					"destination": "street_quad",
+					"type": "string"
+				},
+				{
+					"source": "street",
+					"destination": "street_full_name",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "street_no",
+					"type": "string"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_number",
+					"type": "hause_number"
+				},
+				{
+					"source": "street_no",
+					"destination": "house_alpha",
+					"type": "hause_alpha"
+				},
+				{
+					"source": "unit",
+					"destination": "unit",
+					"type": "string"
+				},
+				{
+					"source": "csdname",
+					"destination": "city",
+					"type": "string"
+				},
+				{
+					"source": "postal_code",
+					"destination": "postal_code",
+					"type": "string"
+				},
+				{
+					"source": "full_addr",
+					"destination": "full_address",
+					"type": "string"
+				},
+				{
+					"source": "Saskatchewan",
+					"destination": "region",
+					"type": "fixed_value"
+				}
+			]
+		}
+	]
+}

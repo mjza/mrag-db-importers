@@ -1,0 +1,196 @@
+{
+	"tables": [
+		{
+			"active": true,
+			"sourceFileAddress": "resources/geocode.earth/whosonfirst-data-admin-ca-latest.db",
+			"sourceTable": "spr",
+			"selectWhereCondition": "",
+			"selectOrderBy": "lastmodified ASC",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_wof_ca_spr",
+			"useUpsert": true,
+			"uniqueIndex": "id",
+			"truncateBeforeInsert": false,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "integer"
+				},
+				{
+					"source": "parent_id",
+					"destination": "parent_id",
+					"type": "integer"
+				},
+				{
+					"source": "name",
+					"destination": "name",
+					"type": "string"
+				},
+				{
+					"source": "placetype",
+					"destination": "place_type_id",
+					"type": "integer"
+				},
+				{
+					"source": "latitude",
+					"destination": "geo_latitude",
+					"type": "number"
+				},
+				{
+					"source": "longitude",
+					"destination": "geo_longitude",
+					"type": "number"
+				},
+				{
+					"source": "min_latitude",
+					"destination": "min_latitude",
+					"type": "number"
+				},
+				{
+					"source": "min_longitude",
+					"destination": "min_longitude",
+					"type": "number"
+				},
+				{
+					"source": "max_latitude",
+					"destination": "max_latitude",
+					"type": "number"
+				},
+				{
+					"source": "max_longitude",
+					"destination": "max_longitude",
+					"type": "number"
+				},
+				{
+					"source": "is_current",
+					"destination": "is_current",
+					"type": "boolean"
+				},
+				{
+					"source": "is_deprecated",
+					"destination": "is_deprecated",
+					"type": "boolean"
+				},
+				{
+					"source": "is_ceased",
+					"destination": "is_ceased",
+					"type": "boolean"
+				},
+				{
+					"source": "is_superseded",
+					"destination": "is_superseded",
+					"type": "boolean"
+				},
+				{
+					"source": "is_superseding",
+					"destination": "is_superseding",
+					"type": "boolean"
+				},
+				{
+					"source": "superseded_by",
+					"destination": "superseded_by",
+					"type": "string"
+				},
+				{
+					"source": "supersedes",
+					"destination": "supersedes",
+					"type": "string"
+				},
+				{
+					"source": "lastmodified",
+					"destination": "last_modified",
+					"type": "unix_timestamp"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/geocode.earth/whosonfirst-data-admin-ca-latest.db",
+			"sourceTable": "names",
+			"selectWhereCondition": "language = 'eng' or language ='fra'",
+			"selectOrderBy": "lastmodified ASC",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_wof_ca_names",
+			"useUpsert": true,
+			"uniqueIndex": "",
+			"truncateBeforeInsert": true,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "integer"
+				},
+				{
+					"source": "language",
+					"destination": "language",
+					"type": "string"
+				},
+				{
+					"source": "region",
+					"destination": "locale",
+					"type": "string"
+				},
+				{
+					"source": "placetype",
+					"destination": "place_type_id",
+					"type": "integer"
+				},
+				{
+					"source": "privateuse",
+					"destination": "context_id",
+					"type": "integer"
+				},
+				{
+					"source": "name",
+					"destination": "name",
+					"type": "string"
+				},
+				{
+					"source": "lastmodified",
+					"destination": "last_modified",
+					"type": "unix_timestamp"
+				}
+			]
+		},
+		{
+			"active": true,
+			"sourceFileAddress": "resources/geocode.earth/whosonfirst-data-admin-ca-latest.db",
+			"sourceTable": "geojson",
+			"selectWhereCondition": "",
+			"selectOrderBy": "lastmodified ASC",
+			"selectGroupBy": "",
+			"destinationTable": "mrag_wof_ca_geojson",
+			"useUpsert": true,
+			"uniqueIndex": "",
+			"truncateBeforeInsert": true,
+			"columns": [
+				{
+					"source": "id",
+					"destination": "id",
+					"type": "integer"
+				},
+				{
+					"source": "body",
+					"destination": "boundary",
+					"type": "boundary"
+				},
+				{
+					"source": "body",
+					"destination": "geo_type_id",
+					"type": "geometry_type_id"
+				},
+				{
+					"source": "is_alt",
+					"destination": "is_alt",
+					"type": "boolean"
+				},
+				{
+					"source": "lastmodified",
+					"destination": "last_modified",
+					"type": "unix_timestamp"
+				}
+			]
+		}
+	]
+}

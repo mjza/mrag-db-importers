@@ -1,0 +1,5 @@
+# Database Configuration
+url=jdbc:postgresql://localhost:5432/mydatabase
+user=myuser
+password=mypassword
+stopOnExceptions=0/1

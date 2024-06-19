@@ -1,0 +1,7 @@
+# Postgres Database Configuration
+url=jdbc:postgresql://localhost:5432/mydatabase
+user=myuser
+password=mypassword
+stopOnExceptions=0/1
+# address of data folder
+dataDirectoryPath=resources/geocode.earth/whosonfirst-data-country-latest/data
