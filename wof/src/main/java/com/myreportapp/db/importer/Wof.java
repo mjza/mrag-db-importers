@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-public class WofImporter {
+public class Wof {
 
-	private static MyLogger logger = MyLogger.getInstance(WofImporter.class);
+	private static MyLogger logger = MyLogger.getInstance(Wof.class);
 	//
 	// Main data
 	private static final String JSON_MAPPING_FILE = "settings/mapping.json";

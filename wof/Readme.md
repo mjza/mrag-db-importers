@@ -1,20 +1,14 @@
 # Download an updated version of the resource files
 
 1. Go to [https://geocode.earth/data/whosonfirst/#CA](https://geocode.earth/data/whosonfirst/#CA) and select a country.
-2. Download 2 files from SQLite Databases section:
-	2.1. `Administrative Boundaries` file. For example, for Canada: [whosonfirst-data-admin-ca-latest.db.bz2](https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-admin-ca-latest.db.bz2)
-	2.2. `Postal Codes` file. For example, for Canada: 	[whosonfirst-data-postalcode-ca-latest.db.bz2](https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-postalcode-ca-latest.db.bz2)
+2. Download `Administrative Boundaries` file from SQLite Databases section. For example, for Canada: [whosonfirst-data-admin-ca-latest.db.bz2](https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-admin-ca-latest.db.bz2)
 3. Extract files in `resources\geocode.earth`.	
 
 # create of `loc` files
-1. Copy the `connection.txt` file and rename it to `connection1.loc` and `connection2.loc`
+1. Copy the `connection.txt` file and rename it to `connection.loc`.
 2. Edit the content of these two files
-3. The `connection1.loc` belongs to `whosonfirst-data-admin-ca-latest.db`, put its address in `connection1.loc` file.
-4. The `connection2.loc` belongs to `whosonfirst-data-postalcode-ca-latest.db`, put its address in `connection2.loc` file.
-
 
 # Build and Run The Application
-
 
 ## Build the Project:
 
@@ -33,5 +27,5 @@ You can run the application directly from Eclipse or using the command line.
 ### Inside the IDE
 1. Right-click on the project in the Project Explorer.
 2. Select `Run As` > `Maven build...`.
-3. In the Goals field, enter `compile exec:java -Dexec.mainClass=com.myreportapp.db.importer.wof`.
+3. In the Goals field, enter `compile exec:java -Dexec.mainClass=com.myreportapp.db.importer.Wof`.
 4. Click Run.
