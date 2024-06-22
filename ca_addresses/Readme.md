@@ -1,20 +1,14 @@
 # Download an updated version of the resource files
 
-1. Go to [https://geocode.earth/data/whosonfirst/#CA](https://geocode.earth/data/whosonfirst/#CA) and select a country.
-2. Download 2 files from SQLite Databases section:
-	2.1. `Administrative Boundaries` file. For example, for Canada: [whosonfirst-data-admin-ca-latest.db.bz2](https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-admin-ca-latest.db.bz2)
-	2.2. `Postal Codes` file. For example, for Canada: 	[whosonfirst-data-postalcode-ca-latest.db.bz2](https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-postalcode-ca-latest.db.bz2)
-3. Extract files in `resources\geocode.earth`.	
+1. Go to [https://www.statcan.gc.ca/en/lode/databases/oda](https://www.statcan.gc.ca/en/lode/databases/oda) and download addresses for Canada.
+2. Extract files in `resources\`.	
 
 # create of `loc` files
-1. Copy the `connection.txt` file and rename it to `connection1.loc` and `connection2.loc`
-2. Edit the content of these two files
-3. The `connection1.loc` belongs to `whosonfirst-data-admin-ca-latest.db`, put its address in `connection1.loc` file.
-4. The `connection2.loc` belongs to `whosonfirst-data-postalcode-ca-latest.db`, put its address in `connection2.loc` file.
+1. Copy the `connection.txt` file and rename it to `connection.loc`.
+2. Edit the content of the new file.
 
 
 # Build and Run The Application
-
 
 ## Build the Project:
 
