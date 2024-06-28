@@ -108,6 +108,8 @@ def create_driver():
     return driver
 
 def expand_address_abbreviations(address):
+    # Extracted list from https://www.gimme-shelter.com/steet-types-designations-abbreviations-50006/
+    # Also provided a pdf in the docs forlder for reference. 
     replacements = {
         r"\sAC\s": r" Acres ",
         r"\sAL\s": r" Alley ",
