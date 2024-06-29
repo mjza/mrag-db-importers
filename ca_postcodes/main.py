@@ -78,7 +78,7 @@ def get_addresses_from_db(limit=1000, offset=0):
             city, 
             region
         FROM public.mrag_ca_addresses
-        WHERE postal_code IS NULL AND region = 'Alberta' AND city = 'Calgary'
+        WHERE postal_code IS NULL AND is_valid = true AND region = 'Alberta' AND city = 'Calgary'
         LIMIT {limit} OFFSET {offset}
     """)
     addresses = cur.fetchall()
@@ -87,14 +87,25 @@ def get_addresses_from_db(limit=1000, offset=0):
 
 def update_postal_code_in_db(street_no, street_full_name, city, region, postal_code):
     cur = CONN.cursor()
-    cur.execute("""
-        UPDATE public.mrag_ca_addresses 
-        SET postal_code = %s 
-        WHERE street_no = %s 
-          AND street_full_name = %s 
-          AND city = %s 
-          AND region = %s
-    """, (postal_code, street_no, street_full_name, city, region))
+    if postal_code == None:
+        cur.execute("""
+            UPDATE public.mrag_ca_addresses 
+            SET is_valid = %s 
+            WHERE street_no = %s 
+            AND street_full_name = %s 
+            AND city = %s 
+            AND region = %s
+        """, (False, street_no, street_full_name, city, region))
+    else:
+        cur.execute("""
+            UPDATE public.mrag_ca_addresses 
+            SET postal_code = %s 
+            WHERE street_no = %s 
+            AND street_full_name = %s 
+            AND city = %s 
+            AND region = %s
+        """, (postal_code, street_no, street_full_name, city, region))
+
     CONN.commit()
     cur.close()
 
@@ -273,7 +284,7 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
 
 if __name__ == "__main__":
     driver = create_driver()
-    limit = 1000
+    limit = 10
     offset = 0
 
     while True:
@@ -286,9 +297,10 @@ if __name__ == "__main__":
             postal_code = get_postal_code(driver, address, full_address, street_full_name, city_region)
             if postal_code:
                 print(f"Found postal code: {postal_code} for address: {address}")
-                update_postal_code_in_db(street_no, street_full_name, city, region, postal_code)
             else:
                 print(f"Could not find postal code for address: {address}")   
+            
+            update_postal_code_in_db(street_no, street_full_name, city, region, postal_code)
         offset += limit
 
     driver.quit()
