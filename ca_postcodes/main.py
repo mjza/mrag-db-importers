@@ -187,9 +187,42 @@ def expand_address_abbreviations(address):
         r"\sXS\s": r" Cross "
     }
 
-    for abbrev, full in replacements.items():
-        address = re.sub(abbrev, full, address)
-    return address
+    # Define directions
+    directions = ['E', 'N', 'W', 'S', 'NE', 'NW', 'SE', 'SW']
+
+    # Split the address into parts
+    parts = re.split(r'(\s+)', address)
+
+    # Find the index of the first comma
+    comma_index = None
+    for i, part in enumerate(parts):
+        if ',' in part:
+            comma_index = i
+            break
+
+    # Find the index of the direction
+    direction_index = None
+    for i, part in enumerate(parts):
+        if part.strip() in directions:
+            direction_index = i
+            break
+
+    # Determine the index of the word to replace
+    if direction_index is not None:
+        target_index = direction_index - 2 if direction_index > 0 else None
+    elif comma_index is not None:
+        target_index = comma_index - 2 if comma_index > 0 else None
+    else:
+        target_index = len(parts) - 1 if len(parts) > 1 else None
+
+    # Replace the target abbreviation if found
+    if target_index is not None and target_index >= 0:
+        for abbrev, full in replacements.items():
+            if re.search(abbrev, ' ' + parts[target_index] + ' '):
+                parts[target_index] = re.sub(abbrev, full.strip(), ' ' + parts[target_index] + ' ').strip()
+                break
+
+    return ''.join(parts)
 
 def get_postal_code(driver, address, full_address, street_full_name, city_region):
     target_url = "https://www.canadapost-postescanada.ca/ac/"
@@ -208,7 +241,7 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
     search_box.clear()
     driver.execute_script("arguments[0].value = arguments[1];", search_box, address)
     search_box.send_keys(Keys.SPACE);    
-    time.sleep(3)  # Allow time for the dropdown to populate
+    time.sleep(1)  # Allow time for the dropdown to populate
     
     try:
         # Wait until the parent element is present
