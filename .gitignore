@@ -25,3 +25,4 @@ wof/log/
 *.log
 ca_postcodes/venv
 .env
+osm2mrag/venv/

@@ -27,6 +27,136 @@ CONN = psycopg2.connect(
         port=DB_PORT
     )
 
+# Extracted list from https://www.gimme-shelter.com/steet-types-designations-abbreviations-50006/
+# Also provided a pdf in the docs forlder for reference. 
+REPLACEMENTS = {
+    r"\sAC\s": r" Acres ",
+    r"\sAL\s": r" Alley ",
+    r"\sAV\s": r" Ave ",
+    r"\sAvenue": r" Ave ",
+    r"\sBA\s": r" Bay ",
+    r"\sBE\s": r" Beach ",
+    r"\sBN\s": r" Bend ",
+    r"\sBV\s": r" Blvd ",
+    r"\sBoulevard\s": r" Blvd ",
+    r"\By-pass\s": r" Bypass ",
+    r"\sCA\s": r" Cape ",
+    r"\sCE\s": r" Ctr ",
+    r"\sCentre\s": r" Ctr ",
+    r"\sCI\s": r" Cir ",
+    r"\sCircle\s": r" Cir ",
+    r"\sCircuit\s": r" Circt ",
+    r"\sCL\s": r" Close ",
+    r"\sCM\s": r" Common ",
+    r"\sConcession\s": r" Conc ",
+    r"\sCorners\s": r" Crnrs ",
+    r"\sCO\s": r" Crt ",
+    r"\sCourt\s": r" Crt ",
+    r"\sCR\s": r" Cres ",
+    r"\sCrescent\s": r" Cres ",
+    r"\sCV\s": r" Cove ",
+    r"\sCrossing\s": r" Cross ",
+    r"\sCul-de-sac\s": r" Cds ",
+    r"\sDI\s": r" Divers ",
+    r"\sDiversion\s": r" Divers ",
+    r"\sDO\s": r" Downs ",
+    r"\sDR\s": r" Dr ",
+    r"\sDrive\s": r" Dr ",
+    r"\sEN\s": r" End ",
+    r"\sEsplanade\s": r" Espl ",
+    r"\sES\s": r" Estate ",
+    r"\sExpressway\s": r" Expy ",
+    r"\sExtension\s": r" Exten ",
+    r"\sFR\s": r" Fwy ",
+    r"\sFreeway\s": r" Fwy ",
+    r"\sGA\s": r" Gate ",
+    r"\sGT\s": r" Gate ",
+    r"\sGD\s": r" Gdns ",
+    r"\sGardens\s": r" Gdns ",
+    r"\sGL\s": r" Glen ",
+    r"\sGR\s": r" Green ",
+    r"\sGrounds\s": r" Grnds ",
+    r"\sGV\s": r" Grove ",
+    r"\sHB\s": r" Harbr ",
+    r"\sHarbour\s": r" Harbr ",
+    r"\sHE\s": r" Heath ",
+    r"\sHI\s": r" Hwy ",
+    r"\sHighway\s": r" Hwy ",
+    r"\sHL\s": r" Hill ",
+    r"\sHO\s": r" Hollow ",
+    r"\sHT\s": r" Hts ",
+    r"\sHeights\s": r" Hts ",
+    r"\sHighlands\s": r" Hghlds ",
+    r"\sIN\s": r" Inlet ",
+    r"\sIS\s": r" Island ",
+    r"\sKN\s": r" Knoll ",
+    r"\sKY\s": r" Key ",
+    r"\sLD\s": r" Landng ",
+    r"\sLI\s": r" Link ",
+    r"\sLN\s": r" Lane ",
+    r"\sLimits\s": r" Lmts ",
+    r"\sLookout\s": r" Lkout ",
+    r"\sLO\s": r" Loop ",        
+    r"\sMA\s": r" Mall ",
+    r"\sMD\s": r" Meadow ",
+    r"\sME\s": r" Mews ",
+    r"\sMR\s": r" Manor ",
+    r"\sMT\s": r" Mount ",
+    r"\sMountain\s": r" Mtn ",
+    r"\sMZ\s": r" Maze ",
+    r"\sOrchard\s": r" Orch ",
+    r"\sPA\s": r" Pk ",
+    r"\sPark\s": r" Pk ",
+    r"\sPH\s": r" Path ",
+    r"\sPK\s": r" Pky ",
+    r"\sPL\s": r" Pl ",
+    r"\sPlace\s": r" Pl ",
+    r"\sPlateau\s": r" Plat ",
+    r"\sPM\s": r" Prom ",
+    r"\sPromenade\s": r" Prom ",
+    r"\sPR\s": r" Parade ",
+    r"\sPS\s": r" Pass ",
+    r"\sPassage\s": r" Pass ",
+    r"\sPoint\s": r" Pt ",
+    r"\sPathway\s": r" Ptway ",
+    r"\sPZ\s": r" Plaza ",
+    r"\sPrivate\s": r" Pvt ",        
+    r"\sQY\s": r" Quay ",
+    r"\sRD\s": r" Rd ",
+    r"\sRoad\s": r" Rd ",
+    r"\sRG\s": r" Ridge ",
+    r"\sRange\s": r" Rg ",
+    r"\sRI\s": r" Rise ",
+    r"\sRoute\s": r" Rte ",
+    r"\sRO\s": r" Row ",
+    r"\sRU\s": r" Run ",
+    r"\sSquare\s": r" Sq ",
+    r"\sST\s": r" St ",
+    r"\sStreet\s": r" St ",
+    r"\sSubdivision\s": r" Subdiv ",
+    r"\sTC\s": r" Terr ",
+    r"\sTerrace\s": r" Terr ",
+    r"\sThicket\s": r" Thick ",
+    r"\sTownline\s": r" Tline ",
+    r"\sTR\s": r" Trail ",
+    r"\sTurnabout\s": r" Trnabt ",
+    r"\sVA\s": r" Vale ",
+    r"\sVG\s": r" Villge ",
+    r"\sVillage\s": r" Villge ",
+    r"\sVI\s": r" Villas ",
+    r"\sVS\s": r" Vista ",
+    r"\sVW\s": r" View ",
+    r"\sWD\s": r" Wynd ",
+    r"\sWK\s": r" Walk ",
+    r"\sWO\s": r" Wood ",
+    r"\sWY\s": r" Way ",
+    r"\sXS\s": r" Cross "
+}
+
+# Define directions
+DIRECTIONS = ['E', 'N', 'W', 'S', 'NE', 'NW', 'SE', 'SW']
+
+
 # Database connection and pagination
 def get_addresses_from_db(limit=1000, offset=0):    
     cur = CONN.cursor()
@@ -79,6 +209,7 @@ def get_addresses_from_db(limit=1000, offset=0):
             region
         FROM public.mrag_ca_addresses
         WHERE postal_code IS NULL AND is_valid = true AND region = 'Alberta' AND city = 'Calgary'
+        ORDER BY full_address DESC
         LIMIT {limit} OFFSET {offset}
     """)
     addresses = cur.fetchall()
@@ -119,135 +250,6 @@ def create_driver():
     return driver
 
 def expand_address_abbreviations(address):
-    # Extracted list from https://www.gimme-shelter.com/steet-types-designations-abbreviations-50006/
-    # Also provided a pdf in the docs forlder for reference. 
-    replacements = {
-        r"\sAC\s": r" Acres ",
-        r"\sAL\s": r" Alley ",
-        r"\sAV\s": r" Ave ",
-        r"\sAvenue": r" Ave ",
-        r"\sBA\s": r" Bay ",
-        r"\sBE\s": r" Beach ",
-        r"\sBN\s": r" Bend ",
-        r"\sBV\s": r" Blvd ",
-        r"\sBoulevard\s": r" Blvd ",
-        r"\By-pass\s": r" Bypass ",
-        r"\sCA\s": r" Cape ",
-        r"\sCE\s": r" Ctr ",
-        r"\sCentre\s": r" Ctr ",
-        r"\sCI\s": r" Cir ",
-        r"\sCircle\s": r" Cir ",
-        r"\sCircuit\s": r" Circt ",
-        r"\sCL\s": r" Close ",
-        r"\sCM\s": r" Common ",
-        r"\sConcession\s": r" Conc ",
-        r"\sCorners\s": r" Crnrs ",
-        r"\sCO\s": r" Crt ",
-        r"\sCourt\s": r" Crt ",
-        r"\sCR\s": r" Cres ",
-        r"\sCrescent\s": r" Cres ",
-        r"\sCV\s": r" Cove ",
-        r"\sCrossing\s": r" Cross ",
-        r"\sCul-de-sac\s": r" Cds ",
-        r"\sDI\s": r" Divers ",
-        r"\sDiversion\s": r" Divers ",
-        r"\sDO\s": r" Downs ",
-        r"\sDR\s": r" Dr ",
-        r"\sDrive\s": r" Dr ",
-        r"\sEN\s": r" End ",
-        r"\sEsplanade\s": r" Espl ",
-        r"\sES\s": r" Estate ",
-        r"\sExpressway\s": r" Expy ",
-        r"\sExtension\s": r" Exten ",
-        r"\sFR\s": r" Fwy ",
-        r"\sFreeway\s": r" Fwy ",
-        r"\sGA\s": r" Gate ",
-        r"\sGT\s": r" Gate ",
-        r"\sGD\s": r" Gdns ",
-        r"\sGardens\s": r" Gdns ",
-        r"\sGL\s": r" Glen ",
-        r"\sGR\s": r" Green ",
-        r"\sGrounds\s": r" Grnds ",
-        r"\sGV\s": r" Grove ",
-        r"\sHB\s": r" Harbr ",
-        r"\sHarbour\s": r" Harbr ",
-        r"\sHE\s": r" Heath ",
-        r"\sHI\s": r" Hwy ",
-        r"\sHighway\s": r" Hwy ",
-        r"\sHL\s": r" Hill ",
-        r"\sHO\s": r" Hollow ",
-        r"\sHT\s": r" Hts ",
-        r"\sHeights\s": r" Hts ",
-        r"\sHighlands\s": r" Hghlds ",
-        r"\sIN\s": r" Inlet ",
-        r"\sIS\s": r" Island ",
-        r"\sKN\s": r" Knoll ",
-        r"\sKY\s": r" Key ",
-        r"\sLD\s": r" Landng ",
-        r"\sLI\s": r" Link ",
-        r"\sLN\s": r" Lane ",
-        r"\sLimits\s": r" Lmts ",
-        r"\sLookout\s": r" Lkout ",
-        r"\sLO\s": r" Loop ",        
-        r"\sMA\s": r" Mall ",
-        r"\sMD\s": r" Meadow ",
-        r"\sME\s": r" Mews ",
-        r"\sMR\s": r" Manor ",
-        r"\sMT\s": r" Mount ",
-        r"\sMountain\s": r" Mtn ",
-        r"\sMZ\s": r" Maze ",
-        r"\sOrchard\s": r" Orch ",
-        r"\sPA\s": r" Pk ",
-        r"\sPark\s": r" Pk ",
-        r"\sPH\s": r" Path ",
-        r"\sPK\s": r" Pky ",
-        r"\sPL\s": r" Pl ",
-        r"\sPlace\s": r" Pl ",
-        r"\sPlateau\s": r" Plat ",
-        r"\sPM\s": r" Prom ",
-        r"\sPromenade\s": r" Prom ",
-        r"\sPR\s": r" Parade ",
-        r"\sPS\s": r" Pass ",
-        r"\sPassage\s": r" Pass ",
-        r"\sPoint\s": r" Pt ",
-        r"\sPathway\s": r" Ptway ",
-        r"\sPZ\s": r" Plaza ",
-        r"\sPrivate\s": r" Pvt ",        
-        r"\sQY\s": r" Quay ",
-        r"\sRD\s": r" Rd ",
-        r"\sRoad\s": r" Rd ",
-        r"\sRG\s": r" Ridge ",
-        r"\sRange\s": r" Rg ",
-        r"\sRI\s": r" Rise ",
-        r"\sRoute\s": r" Rte ",
-        r"\sRO\s": r" Row ",
-        r"\sRU\s": r" Run ",
-        r"\sSquare\s": r" Sq ",
-        r"\sST\s": r" St ",
-        r"\sStreet\s": r" St ",
-        r"\sSubdivision\s": r" Subdiv ",
-        r"\sTC\s": r" Terr ",
-        r"\sTerrace\s": r" Terr ",
-        r"\sThicket\s": r" Thick ",
-        r"\sTownline\s": r" Tline ",
-        r"\sTR\s": r" Trail ",
-        r"\sTurnabout\s": r" Trnabt ",
-        r"\sVA\s": r" Vale ",
-        r"\sVG\s": r" Villge ",
-        r"\sVillage\s": r" Villge ",
-        r"\sVI\s": r" Villas ",
-        r"\sVS\s": r" Vista ",
-        r"\sVW\s": r" View ",
-        r"\sWD\s": r" Wynd ",
-        r"\sWK\s": r" Walk ",
-        r"\sWO\s": r" Wood ",
-        r"\sWY\s": r" Way ",
-        r"\sXS\s": r" Cross "
-    }
-
-    # Define directions
-    directions = ['E', 'N', 'W', 'S', 'NE', 'NW', 'SE', 'SW']
-
     # Split the address into parts
     parts = re.split(r'(\s+)', address)
 
@@ -261,7 +263,7 @@ def expand_address_abbreviations(address):
     # Find the index of the direction
     direction_index = None
     for i, part in enumerate(parts):
-        if part.strip() in directions:
+        if part.strip() in DIRECTIONS:
             direction_index = i
             break
 
@@ -275,7 +277,7 @@ def expand_address_abbreviations(address):
 
     # Replace the target abbreviation if found
     if target_index is not None and target_index >= 0:
-        for abbrev, full in replacements.items():
+        for abbrev, full in REPLACEMENTS.items():
             if re.search(abbrev, ' ' + parts[target_index] + ' '):
                 parts[target_index] = re.sub(abbrev, full.strip(), ' ' + parts[target_index] + ' ').strip()
                 break
