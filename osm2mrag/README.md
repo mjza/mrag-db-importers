@@ -99,6 +99,7 @@ CREATE TABLE public.mrag_ca_addresses (
 	postal_code varchar(20) NULL,
 	full_address text NULL,
 	is_valid bool DEFAULT true NULL,
+  boundary public.geometry(geometry, 4326) NULL,
 	CONSTRAINT mrag_ca_addresses_pkey PRIMARY KEY (id)
 );
 CREATE INDEX mrag_ca_addresses_idx_by_full_address ON public.mrag_ca_addresses USING btree (full_address);
@@ -284,7 +285,21 @@ python main.py
 
 ## For making administrative boundaries
 
+Create a table to store boundaries:
+
 ```sql
+CREATE TABLE mrag_boundary_data (
+    name VARCHAR(255),
+    place VARCHAR(255),
+    center public.geometry(point, 4326),
+    bound public.geometry(geometry, 4326)
+);
+```
+
+And then fill it with: 
+
+```sql
+INSERT INTO mrag_boundary_data (name, place, center, bound)
 SELECT 
     l.name, p.place, p.way AS center, ST_BuildArea((ST_Union(l.way))) AS bound
 FROM 
