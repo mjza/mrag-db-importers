@@ -1,5 +1,6 @@
 import os
 import re
+from tqdm import tqdm
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from shapely.wkt import loads as load_wkt
@@ -590,6 +591,19 @@ def insert_addresses(cursor, addresses):
     insert_query = """
         INSERT INTO mrag_ca_addresses (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, street_no, geo_latitude, geo_longitude, boundary, region, city)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (id) DO UPDATE SET
+            street_full_name = EXCLUDED.street_full_name,
+            street_name = EXCLUDED.street_name,
+            street_type = EXCLUDED.street_type,
+            street_quad = EXCLUDED.street_quad,
+            full_address = EXCLUDED.full_address,
+            postal_code = EXCLUDED.postal_code,
+            street_no = EXCLUDED.street_no,
+            geo_latitude = EXCLUDED.geo_latitude,
+            geo_longitude = EXCLUDED.geo_longitude,
+            boundary = EXCLUDED.boundary,
+            region = EXCLUDED.region,
+            city = EXCLUDED.city;
     """
     for address in addresses:
         cursor.execute(insert_query, address)
@@ -621,39 +635,45 @@ if __name__ == "__main__":
         conn = connect_db()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         
-        limit = 10
+        limit = 1000
         offset = 0
+        
+        # Initialize total_rows for the progress bar
+        cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
+        total_rows = cursor.fetchone()['count']
 
-        while True:
-            rows = get_addresses_from_db(cursor, limit, offset)
-            if not rows:
-                break
+        with tqdm(total=total_rows, desc="Processing addresses") as pbar:
+            while True:
+                rows = get_addresses_from_db(cursor, limit, offset)
+                if not rows:
+                    break
 
-            addresses = []
-            for row in rows:
-                id = row['osm_id']
-                street_no = row['housenumber']
-                street_full_name, street_name, street_type, street_quad = exchange_address_abbreviations(row['street'])
-                full_address = street_no + ' ' + street_full_name
-                postal_code = row['postcode']                
-                geo_latitude = row['latitude']
-                geo_longitude = row['longitude']
-                boundary = row['way']
+                addresses = []
+                for row in rows:
+                    id = row['osm_id']
+                    street_no = row['housenumber']
+                    street_full_name, street_name, street_type, street_quad = exchange_address_abbreviations(row['street'])
+                    full_address = street_no + ' ' + street_full_name
+                    postal_code = row['postcode']                
+                    geo_latitude = row['latitude']
+                    geo_longitude = row['longitude']
+                    boundary = row['way']
+                    
+                    region, city = check_and_set_region_city(cursor, geo_latitude, geo_longitude)
+                    
+                    address = (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, street_no, geo_latitude, geo_longitude, boundary, region, city)
+                    addresses.append(address)
+
+                insert_addresses(cursor, addresses)
+                conn.commit()
                 
-                region, city = check_and_set_region_city(cursor, geo_latitude, geo_longitude)
-                
-                address = (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, street_no, geo_latitude, geo_longitude, boundary, region, city)
-                print(address)
-                addresses.append(address)
-
-            insert_addresses(cursor, addresses)
-            conn.commit()
-            
-            offset += limit
-            break
+                offset += limit
+                pbar.update(len(rows))
 
     except Exception as e:
         print(f"Error: {e}")
+        print(f"Offset: {offset}")
+        print(addresses)
     finally:
         if cursor:
             cursor.close()
