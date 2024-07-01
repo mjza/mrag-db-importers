@@ -493,15 +493,12 @@ def clean_address(unit, full_address):
 def get_addresses_from_db(limit=1000, offset=0):    
     cur = CONN.cursor()
     cur.execute(
-            f"""
-                SELECT DISTINCT 
-                concat(
-                    street_no, 
-                    ' ', 
-                    convert_direction(street_full_name), 
-                    ', ', 
-                    city, 
-                    ', ', 
+        f"""
+            WITH processed_addresses AS (
+                SELECT
+                    street_no,
+                    street_full_name,
+                    city,
                     CASE 
                         WHEN region = 'Alberta' THEN 'AB'
                         WHEN region = 'British Columbia' THEN 'BC'
@@ -517,39 +514,54 @@ def get_addresses_from_db(limit=1000, offset=0):
                         WHEN region = 'Yukon' THEN 'YT'
                         WHEN region = 'Nunavut' THEN 'NU'
                         ELSE region
-                    END
-                ) as address, 
-                street_no, 
-                street_full_name, 
-                concat (street_no, ' ', convert_direction(street_full_name)) as full_address,
-            concat (city, ', ', 
-                CASE 
-                    WHEN region = 'Alberta' THEN 'AB'
-                    WHEN region = 'British Columbia' THEN 'BC'
-                    WHEN region = 'Manitoba' THEN 'MB'
-                    WHEN region = 'New Brunswick' THEN 'NB'
-                    WHEN region = 'Northwest Territories' THEN 'NT'
-                    WHEN region = 'Nova Scotia' THEN 'NS'
-                    WHEN region = 'Ontario' THEN 'ON'
-                    WHEN region = 'Prince Edward Island' THEN 'PE'
-                    WHEN region = 'Quebec' THEN 'QC'
-                    WHEN region = 'Saskatchewan' THEN 'SK'
-                    WHEN region = 'Newfoundland and Labrador' THEN 'NL'
-                    WHEN region = 'Yukon' THEN 'YT'
-                    WHEN region = 'Nunavut' THEN 'NU'
-                    ELSE region
-                END,
-             ', ') as city_region,
-            city, 
-            region
-        FROM public.mrag_ca_addresses
-        WHERE postal_code IS NULL AND is_valid = true AND region = 'Alberta' AND city = 'Calgary'
-        ORDER BY full_address DESC
-        LIMIT {limit} OFFSET {offset}
-    """)
+                    END AS processed_region,
+                    CASE
+                        WHEN street_full_name ~* '\\beast\\b$' THEN regexp_replace(street_full_name, '\\beast\\b$', 'E', 'gi')
+                        WHEN street_full_name ~* '\\bnorth\\b$' THEN regexp_replace(street_full_name, '\\bnorth\\b$', 'N', 'gi')
+                        WHEN street_full_name ~* '\\bnorth[\\s-]?east\\b$' THEN regexp_replace(street_full_name, '\\bnorth[\\s-]?east\\b$', 'NE', 'gi')
+                        WHEN street_full_name ~* '\\bnorth[\\s-]?west\\b$' THEN regexp_replace(street_full_name, '\\bnorth[\\s-]?west\\b$', 'NW', 'gi')
+                        WHEN street_full_name ~* '\\bsouth\\b$' THEN regexp_replace(street_full_name, '\\bsouth\\b$', 'S', 'gi')
+                        WHEN street_full_name ~* '\\bsouth[\\s-]?east\\b$' THEN regexp_replace(street_full_name, '\\bsouth[\\s-]?east\\b$', 'SE', 'gi')
+                        WHEN street_full_name ~* '\\bsouth[\\s-]?west\\b$' THEN regexp_replace(street_full_name, '\\bsouth[\\s-]?west\\b$', 'SW', 'gi')
+                        WHEN street_full_name ~* '\\bwest\\b$' THEN regexp_replace(street_full_name, '\\bwest\\b$', 'W', 'gi')
+                        WHEN street_full_name ~* '\\bwst\\b$' THEN regexp_replace(street_full_name, '\\bwst\\b$', 'W', 'gi')
+                        ELSE street_full_name
+                    END AS processed_street_full_name
+                FROM public.mrag_ca_addresses
+                WHERE postal_code IS NULL AND is_valid = true AND region = 'Alberta' AND city = 'Calgary'
+            )
+            SELECT DISTINCT
+                concat(
+                    street_no, 
+                    ' ', 
+                    processed_street_full_name, 
+                    ', ', 
+                    city, 
+                    ', ', 
+                    processed_region
+                ) as address,
+                street_no,
+                street_full_name,
+                concat (
+                    street_no, 
+                    ' ', 
+                    processed_street_full_name
+                ) as full_address,
+                concat(
+                    city, ', ', 
+                    processed_region,
+                    ', '
+                ) as city_region,
+                city,
+                processed_region as region
+            FROM processed_addresses
+            ORDER BY full_address DESC
+            LIMIT {limit} OFFSET {offset}
+        """)
     addresses = cur.fetchall()
     cur.close()
     return addresses
+
 
 def update_postal_code_in_db(street_no, street_full_name, city, region, postal_code):
     cur = CONN.cursor()
@@ -687,7 +699,7 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
 
 if __name__ == "__main__":
     driver = create_driver()
-    limit = 10
+    limit = 1000
     offset = 0
 
     while True:
