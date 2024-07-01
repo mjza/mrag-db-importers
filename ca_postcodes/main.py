@@ -476,6 +476,18 @@ REPLACEMENTS = {
 # Define directions
 DIRECTIONS = ['E', 'N', 'W', 'S', 'NE', 'NW', 'SE', 'SW']
 
+# Define the function to clean the address
+def clean_address(unit, full_address):
+    unit_patterns = [
+        rf'^\s*{re.escape(unit)}\s*',        # matches unit number at the start
+        rf'#\s*{re.escape(unit)}\s*',        # matches # followed by unit number
+        rf',?\s*unit\s*{re.escape(unit)}',   # matches ", unit" followed by unit number
+        rf',?\s*{re.escape(unit)}-',         # matches comma or space followed by word and hyphen
+        rf',?\s*{re.escape(unit)}\s*'        # matches comma or space followed by word
+    ]
+    for pattern in unit_patterns:
+        full_address = re.sub(pattern, '', full_address, flags=re.IGNORECASE).strip()
+    return full_address
 
 # Database connection and pagination
 def get_addresses_from_db(limit=1000, offset=0):    
@@ -486,7 +498,10 @@ def get_addresses_from_db(limit=1000, offset=0):
                 concat(
                     street_no, 
                     ' ', 
-                    street_full_name, ', ', city, ', ', 
+                    convert_direction(street_full_name), 
+                    ', ', 
+                    city, 
+                    ', ', 
                     CASE 
                         WHEN region = 'Alberta' THEN 'AB'
                         WHEN region = 'British Columbia' THEN 'BC'
@@ -506,7 +521,7 @@ def get_addresses_from_db(limit=1000, offset=0):
                 ) as address, 
                 street_no, 
                 street_full_name, 
-                concat (street_no, ' ', street_full_name) as full_address,
+                concat (street_no, ' ', convert_direction(street_full_name)) as full_address,
             concat (city, ', ', 
                 CASE 
                     WHEN region = 'Alberta' THEN 'AB'
@@ -573,34 +588,53 @@ def expand_address_abbreviations(address):
     # Split the address into parts
     parts = re.split(r'(\s+)', address)
 
-    # Find the index of the first comma
+    # Initialize variables
     comma_index = None
+    direction_index = None
+    target_index = None
+    street_type = None
+    style = 'English'
+
+    # Find the index of the first comma
     for i, part in enumerate(parts):
         if ',' in part:
             comma_index = i
             break
 
-    # Find the index of the direction
-    direction_index = None
-    for i, part in enumerate(parts):
-        if part.strip() in DIRECTIONS:
+    # Find the index of the direction (search from back to front)
+    for i in range(len(parts) - 1, -1, -1):
+        if parts[i].strip() in DIRECTIONS:
             direction_index = i
             break
 
-    # Determine the index of the word to replace
-    if direction_index is not None:
-        target_index = direction_index - 2 if direction_index > 0 else None
-    elif comma_index is not None:
-        target_index = comma_index - 2 if comma_index > 0 else None
-    else:
-        target_index = len(parts) - 1 if len(parts) > 1 else None
+    # Determine the starting index for the backward search
+    start_index = comma_index if comma_index is not None else len(parts) - 1    
+        
+    # Determine the index of the word to replace (search from back to front)
+    for i in range(start_index, -1, -1):
+        for abbrev in REPLACEMENTS.keys():
+            if re.search(abbrev, ' ' + parts[i].strip() + ' '):
+                if target_index is not None:
+                    # If another replacement is found, assume English style
+                    style = 'English'
+                    break
+                target_index = i
+        if target_index is not None:
+            break
+
+    # Detect French style based on the replacement part position
+    if target_index is not None and target_index < start_index and (direction_index is None or target_index != direction_index - 2):
+        style = 'French'
 
     # Replace the target abbreviation if found
     if target_index is not None and target_index >= 0:
         for abbrev, full in REPLACEMENTS.items():
             if re.search(abbrev, ' ' + parts[target_index] + ' '):
                 parts[target_index] = re.sub(abbrev, full.strip(), ' ' + parts[target_index] + ' ').strip()
+                street_type = parts[target_index]                
                 break
+        if street_type is None:
+            target_index = None
 
     return ''.join(parts)
 

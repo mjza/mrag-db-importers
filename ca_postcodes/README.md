@@ -77,6 +77,48 @@ pip list
 
 You should see `selenium`, `psycopg2-binary`, and `python-dotenv` listed among the installed packages.
 
+### Step 5: Create needed SQL functions
+
+To incorporate the `DIRECTIONS_REPLACEMENTS` dictionary and the `convert_direction` function within a SQL `SELECT` statement, we can use a User-Defined Function (UDF) as we are using a database system that supports UDFs, such as PostgreSQL.
+
+```sql
+-- Step 1: Define the UDF
+CREATE OR REPLACE FUNCTION convert_direction(address TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    DIRECTIONS_REPLACEMENTS JSONB;
+    pattern TEXT;
+    replacement TEXT;
+BEGIN
+    -- Define the replacements dictionary
+    DIRECTIONS_REPLACEMENTS := jsonb_build_object(
+        '\beast\b$', 'E',
+        '\bnorth\b$', 'N',
+        '\bnorth[\s-]?east\b$', 'NE',
+        '\bnorth[\s-]?west\b$', 'NW',
+        '\bsouth\b$', 'S',
+        '\bsouth[\s-]?east\b$', 'SE',
+        '\bsouth[\s-]?west\b$', 'SW',
+        '\bwest\b$', 'W',
+        '\bwst\b$', 'W'
+    );
+
+    -- Loop through the replacements dictionary and apply the regex replacements
+    FOR pattern, replacement IN SELECT * FROM jsonb_each_text(DIRECTIONS_REPLACEMENTS)
+    LOOP
+        IF address ~* pattern THEN
+            address := regexp_replace(address, pattern, replacement, 'gi');
+            EXIT;  -- Exit the loop after the first match and replacement
+        END IF;
+    END LOOP;
+
+    RETURN address;
+END;
+$$ LANGUAGE plpgsql;
+
+```
+
+
 ### Step 5: Running Your Script
 
 Ensure your virtual environment is activated and then run your script:
