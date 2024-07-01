@@ -135,23 +135,44 @@ DECLARE
   number_part text;
   alpha_part text;
   unit_part text;
+  part text;
+  parts text[];
 BEGIN
-  -- Remove leading non-digit characters
-  full_street_no := regexp_replace(NEW.street_no, '^[^0-9]*', '', 'g');
+  -- Split the street_no into parts based on semicolons
+  parts := regexp_split_to_array(NEW.street_no, ';');
 
-  -- Extract unit part if present (e.g., 101-375 -> unit is 101)
-  IF position('-' in full_street_no) > 0 THEN
-    unit_part := split_part(full_street_no, '-', 1);
-    full_street_no := split_part(full_street_no, '-', 2);
-  ELSE
-    unit_part := NULL;
-  END IF;
+  -- Initialize variables
+  full_street_no := '';
+  number_part := '';
+  alpha_part := '';
+  unit_part := '';
 
-  -- Extract number part (e.g., 136A -> number is 136)
-  number_part := regexp_replace(full_street_no, '[^0-9]', '', 'g');
+  -- Iterate through each part to process
+  FOREACH part IN ARRAY parts LOOP
+    -- Remove leading non-digit characters
+    part := regexp_replace(part, '^[^0-9]*', '', 'g');
 
-  -- Extract alpha part (e.g., 136A -> alpha is A)
-  alpha_part := regexp_replace(full_street_no, '[0-9]', '', 'g');
+    -- Extract unit part if present (e.g., 101-375 -> unit is 101)
+    IF position('-' in part) > 0 THEN
+      unit_part := split_part(part, '-', 1);
+      part := split_part(part, '-', 2);
+    END IF;
+
+    -- Extract number part until the first non-digit character
+    number_part := regexp_replace(part, '^([0-9]+).*', '\1', 'g');
+
+    -- Extract alpha part starting from the first non-digit character
+    alpha_part := regexp_replace(part, '^[0-9]+', '', 'g');
+
+    -- Append the parts to full_street_no
+    IF full_street_no != '' THEN
+      full_street_no := full_street_no || ';';
+    END IF;
+    full_street_no := full_street_no || number_part || alpha_part;
+  END LOOP;
+
+  -- Set the processed full_street_no back to NEW.street_no
+  NEW.street_no := full_street_no;
 
   -- Set unit part
   NEW.unit := unit_part;

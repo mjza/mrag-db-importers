@@ -640,7 +640,7 @@ if __name__ == "__main__":
         
         # Initialize total_rows for the progress bar
         cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
-        total_rows = cursor.fetchone()['count']
+        total_rows = cursor.fetchone()['count'] - offset
 
         with tqdm(total=total_rows, desc="Processing addresses") as pbar:
             while True:
@@ -671,9 +671,9 @@ if __name__ == "__main__":
                 pbar.update(len(rows))
 
     except Exception as e:
-        print(f"Error: {e}")
-        print(f"Offset: {offset}")
         print(addresses)
+        print(f"Error: {e}")
+        print(f"Offset: {offset}")        
     finally:
         if cursor:
             cursor.close()
