@@ -12,22 +12,13 @@ CREATE EXTENSION hstore;
 4. Then, open a terminal in the place where you have downloaded `alberta-latest.osm.pbf` and run the following command:
 
 ```bash
-osm2pgsql -d osm -U postgres -H localhost -W -C 2000
---create --slim --multi-geometry --latlong
---hstore-all --reproject-area --hstore-add-index
---extra-attributes --keep-coastlines
-./alberta-latest.osm.pbf
+osm2pgsql -d osm -U postgres -H localhost -W -C 2000 --create --slim --multi-geometry --latlong --hstore-all --reproject-area --hstore-add-index --extra-attributes --keep-coastlines ./alberta-latest.osm.pbf
 ```
 
 In windows you need to provide the address to the default.style file using -S option. Therefore, use the following command if we assume you have unzipped the downloaded osm2pgsql in C:\Users\mahdi\AppData\Local\osm2pgsql\default.style.
 
 ```bash
-osm2pgsql -d osm -U postgres -H localhost -W
--S 'C:\Users\mahdi\AppData\Local\osm2pgsql\default.style'
--C 2000 --create --slim --multi-geometry
---latlong --hstore-all --reproject-area
---hstore-add-index --extra-attributes
---keep-coastlines ./alberta-latest.osm.pbf
+osm2pgsql -d osm -U postgres -H localhost -W -S 'C:\Users\mahdi\AppData\Local\osm2pgsql\default.style' -C 2000 --create --slim --multi-geometry --latlong --hstore-all --reproject-area --hstore-add-index --extra-attributes --keep-coastlines ./alberta-latest.osm.pbf
 ```
 
 Options Breakdown:
