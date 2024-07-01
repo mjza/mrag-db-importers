@@ -138,47 +138,32 @@ DECLARE
   part text;
   parts text[];
 BEGIN
-  -- Split the street_no into parts based on semicolons
-  parts := regexp_split_to_array(NEW.street_no, ';');
 
   -- Initialize variables
-  full_street_no := '';
   number_part := '';
   alpha_part := '';
   unit_part := '';
 
-  -- Iterate through each part to process
-  FOREACH part IN ARRAY parts LOOP
-    -- Remove leading non-digit characters
-    part := regexp_replace(part, '^[^0-9]*', '', 'g');
-
-    -- Extract unit part if present (e.g., 101-375 -> unit is 101)
-    IF position('-' in part) > 0 THEN
-      unit_part := split_part(part, '-', 1);
-      part := split_part(part, '-', 2);
-    END IF;
-
-    -- Extract number part until the first non-digit character
-    number_part := regexp_replace(part, '^([0-9]+).*', '\1', 'g');
-
-    -- Extract alpha part starting from the first non-digit character
-    alpha_part := regexp_replace(part, '^[0-9]+', '', 'g');
-
-    -- Append the parts to full_street_no
-    IF full_street_no != '' THEN
-      full_street_no := full_street_no || ';';
-    END IF;
-    full_street_no := full_street_no || number_part || alpha_part;
-  END LOOP;
-
-  -- Set the processed full_street_no back to NEW.street_no
-  NEW.street_no := full_street_no;
+  -- Remove leading non-digit characters
+  part := regexp_replace(NEW.street_no, '^[^0-9]*', '', 'g');
+	
+  -- Extract unit part if present (e.g., 101-375 -> unit is 101)
+  IF position('-' in part) > 0 THEN
+	unit_part := split_part(part, '-', 1);
+	part := split_part(part, '-', 2);
+  END IF;
+	
+  -- Extract number part until the first non-digit character
+  number_part := regexp_replace(part, '^([0-9]+).*', '\1', 'g');
+	
+  -- Extract alpha part starting from the first non-digit character
+  alpha_part := regexp_replace(part, '^[0-9]+', '', 'g');
 
   -- Set unit part
   NEW.unit := unit_part;
 
-  -- Convert number part to integer, handle null case
-  IF number_part IS NOT NULL AND number_part != '' THEN
+  -- Check if number_part is a valid number before assigning to house_number
+  IF number_part ~ '^[0-9]+$' THEN
     NEW.house_number := number_part::int;
   ELSE
     NEW.house_number := NULL;
