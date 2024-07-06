@@ -126,30 +126,6 @@ CREATE TRIGGER mrag_ca_addresses_tr_update_geo_location BEFORE INSERT
 OR UPDATE ON
 public.mrag_ca_addresses FOR EACH ROW EXECUTE FUNCTION mrag_function_update_geo_location();
 
---
-CREATE OR REPLACE FUNCTION format_postal_code()
-RETURNS TRIGGER AS $$
-BEGIN
-  IF NEW.postal_code IS NOT NULL THEN
-    -- Remove any existing spaces
-    NEW.postal_code := REPLACE(NEW.postal_code, ' ', '');
-    
-    -- Format the postal code if it has at least 6 characters
-    IF LENGTH(NEW.postal_code) = 6 THEN
-      NEW.postal_code := UPPER(SUBSTRING(NEW.postal_code FROM 1 FOR 3)) || ' ' || UPPER(SUBSTRING(NEW.postal_code FROM 4));
-    ELSE
-      -- Ensure the postal code is in uppercase if it's incomplete
-      NEW.postal_code := UPPER(NEW.postal_code);
-    END IF;
-  END IF;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_format_postal_code
-BEFORE INSERT OR UPDATE ON mrag_ca_addresses
-FOR EACH ROW
-EXECUTE FUNCTION format_postal_code();
 ```
 
 ### Step 1: Create a Virtual Environment

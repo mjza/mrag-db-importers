@@ -497,13 +497,20 @@ def convert_direction(address):
 
     return address
 
-def truncate_string_at_word(s, max_length=20):
-    if s is None or len(s) <= max_length:
-        return s
-    
-    truncated = s[:max_length].rsplit(' ', 1)[0]
-    
-    return truncated
+def format_postal_code(postal_code):
+    if postal_code is not None:
+        # Remove any existing spaces
+        postal_code = postal_code.replace(' ', '')
+
+        # Format the postal code if it has at least 6 characters
+        if len(postal_code) >= 6:
+            formatted_postal_code = postal_code[:3].upper() + ' ' + postal_code[3:6].upper()
+        else:
+            # Ensure the postal code is in uppercase if it's incomplete
+            formatted_postal_code = postal_code.upper()
+        
+        return formatted_postal_code
+    return None
 
 def exchange_address_abbreviations(address):
     address = convert_direction(address)
@@ -811,7 +818,7 @@ if __name__ == "__main__":
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         
         limit = 1000
-        offset = 172000
+        offset = 232000
         
         # Initialize total_rows for the progress bar
         cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
@@ -830,7 +837,7 @@ if __name__ == "__main__":
                     street = row['street']
                     street_full_name, street_name, street_type, street_quad = exchange_address_abbreviations(row['street'])
                     full_address = street_no + ' ' + street_full_name
-                    postal_code = truncate_string_at_word(row['postcode'], 7)                
+                    postal_code = format_postal_code(row['postcode'])                
                     geo_latitude = row['latitude']
                     geo_longitude = row['longitude']
                     boundary = row['way']
