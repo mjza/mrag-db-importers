@@ -497,6 +497,14 @@ def convert_direction(address):
 
     return address
 
+def truncate_string_at_word(s, max_length=20):
+    if s is None or len(s) <= max_length:
+        return s
+    
+    truncated = s[:max_length].rsplit(' ', 1)[0]
+    
+    return truncated
+
 def exchange_address_abbreviations(address):
     address = convert_direction(address)
     
@@ -559,7 +567,6 @@ def exchange_address_abbreviations(address):
     street_name_parts = [part for i, part in enumerate(parts) if i != target_index and i != direction_index]
     street_name = ''.join(street_name_parts).strip()
 
-
     return updated_address, street_name, street_type, street_quad
 
 # Function to calculate the centroid of a polygon
@@ -613,7 +620,13 @@ def insert_addresses(cursor, addresses):
             city = EXCLUDED.city;
     """
     for address in addresses:
-        cursor.execute(insert_query, address)
+        try:
+            cursor.execute("SAVEPOINT before_insert")
+            cursor.execute(insert_query, address)
+        except Exception as e:
+            print(address)
+            print(f"Error: {e}")
+            cursor.execute("ROLLBACK TO SAVEPOINT before_insert")
         
 # Function to check and set region and city based on boundaries
 def check_and_set_region_city(cursor, latitude, longitude):
@@ -798,7 +811,7 @@ if __name__ == "__main__":
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         
         limit = 1000
-        offset = 0
+        offset = 172000
         
         # Initialize total_rows for the progress bar
         cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
@@ -817,7 +830,7 @@ if __name__ == "__main__":
                     street = row['street']
                     street_full_name, street_name, street_type, street_quad = exchange_address_abbreviations(row['street'])
                     full_address = street_no + ' ' + street_full_name
-                    postal_code = row['postcode']                
+                    postal_code = truncate_string_at_word(row['postcode'], 7)                
                     geo_latitude = row['latitude']
                     geo_longitude = row['longitude']
                     boundary = row['way']
