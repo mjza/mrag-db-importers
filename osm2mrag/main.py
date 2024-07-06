@@ -818,7 +818,7 @@ if __name__ == "__main__":
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         
         limit = 1000
-        offset = 232000
+        offset = 0
         
         # Initialize total_rows for the progress bar
         cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
