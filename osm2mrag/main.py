@@ -821,7 +821,7 @@ if __name__ == "__main__":
         offset = 0
         
         # Initialize total_rows for the progress bar
-        cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon")
+        cursor.execute("SELECT COUNT(*) FROM planet_osm_polygon WHERE tags ? 'addr:street' AND tags ? 'addr:postcode' AND tags ? 'addr:housenumber'")
         total_rows = cursor.fetchone()['count'] - offset
 
         with tqdm(total=total_rows, desc="Processing addresses") as pbar:
