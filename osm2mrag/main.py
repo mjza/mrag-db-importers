@@ -1,5 +1,6 @@
 import os
 import re
+import Levenshtein
 from tqdm import tqdm
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -575,6 +576,9 @@ def get_addresses_from_db(cursor, limit, offset):
             tags->'addr:street' AS street,
             tags->'addr:postcode' AS postcode,
             tags->'addr:housenumber' AS housenumber,
+            tags->'addr:state' AS state,
+            tags->'addr:province' AS province,
+            tags->'addr:city' AS city,
             ST_X(ST_Centroid(way)) AS longitude,
             ST_Y(ST_Centroid(way)) AS latitude,
             way
@@ -589,8 +593,8 @@ def get_addresses_from_db(cursor, limit, offset):
 # Insert addresses into mrag_ca_addresses table
 def insert_addresses(cursor, addresses):
     insert_query = """
-        INSERT INTO mrag_ca_addresses (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, street_no, geo_latitude, geo_longitude, boundary, region, city)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO mrag_ca_addresses (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, geo_latitude, geo_longitude, boundary, region, city, street_no, house_number, house_alpha, unit)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (id) DO UPDATE SET
             street_full_name = EXCLUDED.street_full_name,
             street_name = EXCLUDED.street_name,
@@ -599,6 +603,9 @@ def insert_addresses(cursor, addresses):
             full_address = EXCLUDED.full_address,
             postal_code = EXCLUDED.postal_code,
             street_no = EXCLUDED.street_no,
+            house_number = EXCLUDED.house_number, 
+            house_alpha = EXCLUDED.house_alpha,
+            unit = EXCLUDED.unit,
             geo_latitude = EXCLUDED.geo_latitude,
             geo_longitude = EXCLUDED.geo_longitude,
             boundary = EXCLUDED.boundary,
@@ -629,6 +636,161 @@ def check_and_set_region_city(cursor, latitude, longitude):
 
     return region, city        
 
+def extract_parts(house_no, street_name):
+    def clean_and_split(input_str):
+        input_str = input_str.strip().replace('"', '').replace("'", "").replace('`', '')
+        parts = re.split(r'[;,/&\-]', input_str)        
+        if (match := re.match(r'^(\d+\w*)\s+((\d+\w*\s+)+\d+\w*)$', house_no)): 
+            parts = [match.group(1)]  # extract first item of 1 2 3 4 5
+        elif(len(parts) == 2 and bool(re.search(r'^\d+\s+1\/2$', input_str))): 
+            parts = [input_str.strip()] # for cases like: "11 1/2"
+        elif(len(parts) == 2 and bool(re.search(r',', input_str))):
+            parts = [input_str.strip()]
+        elif(len(parts) == 2 and bool(re.search(r'\S-\S', input_str))) or (len(parts) == 2 and bool(re.search(r'\S-$', input_str))):
+            parts = [input_str.strip()]
+        else:
+            parts = [part.strip() for part in parts if part.strip()]  
+        return parts
+
+    def find_difference_position(s1, s2):
+        len1, len2 = len(s1), len(s2)
+        min_len = min(len1, len2)        
+        # Find the first position where the characters differ
+        for i in range(min_len):
+            if s1[i] != s2[i]:
+                return i        
+        # If no difference is found in the overlapping part, check the lengths
+        if len1 != len2:
+            return min_len        
+        return -1
+    
+    def process_house_no(house_no):
+        if not house_no:
+            return None, None, None
+        house_no = house_no.strip().upper()
+        unit_number = None
+        number_part = None
+        alpha_part = None
+
+        # Handle unit number
+        if (match := re.match(r'^(\d+)\s+1\/2$', house_no, re.IGNORECASE)): # for cases like: "11 1/2"
+            parts = match.groups()          
+            house_no = parts[0] + " ½"
+        elif (match := re.match(r'^([\d|\w]+)[\-\s]+(\d+\w?)$', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]
+            house_no = parts[1]
+        elif (match := re.match(r'^(\d+\w?),(\d+\w?)$', house_no, re.IGNORECASE)): # for cases like: "103A,103B"
+            parts = match.groups()
+            s1 = parts[0]
+            s2 = parts[1]
+            if Levenshtein.distance(s1, s2) <= 1:
+                house_no = s1
+            else:
+                unit_number = s1
+                house_no = s2
+        elif (match := re.match(r'^([^,]+\S),(\S[^,]+)$', house_no, re.IGNORECASE)): # for cases like: "1206 1,1206 2"
+            parts = match.groups()
+            s1 = parts[0]
+            s2 = parts[1]
+            if Levenshtein.distance(s1, s2) <= 1:
+                cut_pos = find_difference_position(s1, s2)
+                if cut_pos > -1:
+                    house_no = s1[:cut_pos].strip()
+                    unit_number = s1[cut_pos:].strip()
+                else:
+                    house_no = s1
+            else:
+                unit_number = s1
+                house_no = s2
+        elif (match := re.match(r'^([\d|\w]+),\s+(\d+\w?).*$', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]           
+            house_no = parts[1]
+        elif (match := re.match(r'^([^-]+)-\s*$', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]     
+        elif (match := re.match(r'^unit\s*(\S*)([,\-\s]\s*(\d+\s*\w?))?', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]
+            if len(parts) > 2:
+                house_no = parts[2]
+            else:
+                house_no = None
+        elif (match := re.match(r'^(\d+\s*\w?)([,\s]+unit\s*(\S*))', house_no, re.IGNORECASE)): 
+            parts = match.groups()
+            house_no = parts[0]
+            if len(parts) > 2:
+                unit_number = parts[2]
+        elif (match := re.match(r'^#([^,\-\s]+)([,\-\s]\s*(\d+\s*\w?))?', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]            
+            if len(parts) > 2:
+                house_no = parts[2]
+            else:
+                house_no = None
+        elif (match := re.match(r'^(,\s*)(\d+\s*\w?)', house_no, re.IGNORECASE)):
+            parts = match.groups()           
+            if len(parts) > 1:
+                house_no = parts[1]
+        elif (match := re.match(r'^([^\.]+)\.\.\.[^-]+-(\S*)', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            unit_number = parts[0]
+            house_no = parts[1]
+        elif (match := re.match(r'^(\d+\s*\w?)\s+([^-]+)-(\S+)$', house_no, re.IGNORECASE)):
+            parts = match.groups()
+            house_no = parts[0]
+            unit_number = parts[1]
+                    
+        # Handle parentheses
+        if house_no:       
+            if re.search(r'(\d+\s*\([\d+|\w+]\)?|\d+\s*\[[\d+|\w+]\]?)', house_no):
+                number_part = re.findall(r'\d+', house_no.split('(')[0])[0]
+                alpha_part = re.findall(r'\d+|\w+', house_no.split('(')[1])[0]
+            else:
+                # Handle 0.x and .x cases
+                if (match := re.match(r'^[0\s]*\.(\d+)$', house_no)):
+                    number_part = match.groups()[0]
+                # Handle x.x and x.5 cases
+                elif re.match(r'^\d+\.\d+$', house_no):
+                    number_part, alpha_part = house_no.split('.')
+                    alpha_part = '.' + alpha_part
+                elif (match:= re.match(r'^(\d+)(\w*)$|^(\d+)\s(\w)$|^(\d+)\s+([\w\s]{2,})$', house_no)):
+                    street_parts = match.groups()
+                    if street_parts[0] is not None:
+                        number_part = street_parts[0].strip()
+                        if street_parts[1] is not None:
+                            alpha_part = street_parts[1].strip()
+
+                    if street_parts[2] is not None:
+                        number_part = street_parts[2].strip()                      
+                        if street_parts[3] is not None:
+                            alpha_part = street_parts[3].strip()
+                    if street_parts[4] is not None:
+                        number_part = street_parts[4].strip()
+
+            # Convert alpha part to uppercase
+            alpha_part = alpha_part.upper() if alpha_part else None
+
+        return unit_number, number_part, alpha_part
+
+    # Clean and split the house_no string
+    parts = clean_and_split(house_no)
+
+    # Process the cleaned parts
+    unit_number, number_part, alpha_part = process_house_no(parts[0])
+
+    # Handle specific case for extracting house number and alpha part from street name
+    if street_name and (number_part == "" or number_part is None):
+        street_match = re.match(r'\s*(\d+)\s*(\w{1})?(\s+\S*)?', street_name)
+        if street_match:
+            street_parts = street_match.groups()
+            number_part = street_parts[0].strip()
+            if street_parts[1] is not None:
+                alpha_part = street_parts[1].strip()
+
+    return unit_number, number_part, alpha_part
+
 # Main script
 if __name__ == "__main__":
     try:
@@ -652,16 +814,35 @@ if __name__ == "__main__":
                 for row in rows:
                     id = row['osm_id']
                     street_no = row['housenumber']
+                    street = row['street']
                     street_full_name, street_name, street_type, street_quad = exchange_address_abbreviations(row['street'])
                     full_address = street_no + ' ' + street_full_name
                     postal_code = row['postcode']                
                     geo_latitude = row['latitude']
                     geo_longitude = row['longitude']
                     boundary = row['way']
+
+                    unit, house_number, house_alpha = extract_parts(street_no, street)
+                    if house_alpha is not None and house_alpha.isalpha():
+                        street_no = house_number.strip() + house_alpha.strip()
+                    elif house_alpha is not None:
+                        street_no = house_number.strip() + "(" + house_alpha.strip() + ")"
+                    elif house_number is not None:
+                        street_no = house_number.strip()
+                    else:
+                        street_no = None
+
+                    # Determine region
+                    state = row['state'] if 'state' in row and row['state'] else None
+                    province = row['province'] if 'province' in row and row['province'] else None
+                    region = state if state else province
                     
-                    region, city = check_and_set_region_city(cursor, geo_latitude, geo_longitude)
+                    city = row['city'] if 'city' in row else None
                     
-                    address = (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, street_no, geo_latitude, geo_longitude, boundary, region, city)
+                    if city is None and region is None:
+                        region, city = check_and_set_region_city(cursor, geo_latitude, geo_longitude)
+                    
+                    address = (id, street_full_name, street_name, street_type, street_quad, full_address, postal_code, geo_latitude, geo_longitude, boundary, region, city, street_no, house_number, house_alpha, unit)
                     addresses.append(address)
 
                 insert_addresses(cursor, addresses)

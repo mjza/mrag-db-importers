@@ -99,7 +99,6 @@ CREATE INDEX mrag_ca_addresses_idx_by_region ON public.mrag_ca_addresses USING b
 CREATE INDEX mrag_ca_addresses_idx_by_street_full_name ON public.mrag_ca_addresses USING btree (street_full_name);
 
 -- Table Triggers
-
 CREATE OR
 REPLACE FUNCTION mrag_function_update_geo_location () RETURNS TRIGGER AS $$
 BEGIN
@@ -126,64 +125,6 @@ and any direct attempt to update geo_location is ignored, with the column being 
 CREATE TRIGGER mrag_ca_addresses_tr_update_geo_location BEFORE INSERT
 OR UPDATE ON
 public.mrag_ca_addresses FOR EACH ROW EXECUTE FUNCTION mrag_function_update_geo_location();
-
---
-CREATE OR REPLACE FUNCTION split_street_no()
-RETURNS TRIGGER AS $$
-DECLARE
-  full_street_no text;
-  number_part text;
-  alpha_part text;
-  unit_part text;
-  part text;
-  parts text[];
-BEGIN
-
-  -- Initialize variables
-  number_part := '';
-  alpha_part := '';
-  unit_part := '';
-
-  -- Remove leading non-digit characters
-  part := regexp_replace(NEW.street_no, '^[^0-9]*', '', 'g');
-	
-  -- Extract unit part if present (e.g., 101-375 -> unit is 101)
-  IF position('-' in part) > 0 THEN
-	unit_part := split_part(part, '-', 1);
-	part := split_part(part, '-', 2);
-  END IF;
-	
-  -- Extract number part until the first non-digit character
-  number_part := regexp_replace(part, '^([0-9]+).*', '\1', 'g');
-	
-  -- Extract alpha part starting from the first non-digit character
-  alpha_part := regexp_replace(part, '^[0-9]+', '', 'g');
-
-  -- Set unit part
-  NEW.unit := unit_part;
-
-  -- Check if number_part is a valid number before assigning to house_number
-  IF number_part ~ '^[0-9]+$' THEN
-    NEW.house_number := number_part::int;
-  ELSE
-    NEW.house_number := NULL;
-  END IF;
-
-  -- Set alpha part, handle null case
-  IF alpha_part IS NOT NULL AND alpha_part != '' THEN
-    NEW.house_alpha := alpha_part;
-  ELSE
-    NEW.house_alpha := NULL;
-  END IF;
-
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_split_street_no
-BEFORE INSERT OR UPDATE ON mrag_ca_addresses
-FOR EACH ROW
-EXECUTE FUNCTION split_street_no();
 
 --
 CREATE OR REPLACE FUNCTION format_postal_code()
