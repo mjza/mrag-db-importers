@@ -499,6 +499,7 @@ def get_addresses_from_db(limit=1000, offset=0):
                     street_no,
                     street_full_name,
                     city,
+                    region,
                     CASE 
                         WHEN region = 'Alberta' THEN 'AB'
                         WHEN region = 'British Columbia' THEN 'BC'
@@ -553,7 +554,7 @@ def get_addresses_from_db(limit=1000, offset=0):
                     ', '
                 ) as city_region,
                 city,
-                processed_region as region
+                region
             FROM processed_addresses
             ORDER BY full_address DESC
             LIMIT {limit} OFFSET {offset}
@@ -565,7 +566,7 @@ def get_addresses_from_db(limit=1000, offset=0):
 
 def update_postal_code_in_db(street_no, street_full_name, city, region, postal_code):
     cur = CONN.cursor()
-    if postal_code == None:
+    if postal_code is None:
         cur.execute("""
             UPDATE public.mrag_ca_addresses 
             SET is_valid = %s 
@@ -583,9 +584,12 @@ def update_postal_code_in_db(street_no, street_full_name, city, region, postal_c
             AND city = %s 
             AND region = %s
         """, (postal_code, street_no, street_full_name, city, region))
-
+    updated_rows = cur.rowcount
+    if updated_rows == 0:
+        raise Exception("No rows were updated: ", street_no, ', ', street_full_name, ', ', city, ', ', region, ', ', postal_code)
     CONN.commit()
     cur.close()
+    return updated_rows    
 
 def create_driver():
     options = webdriver.ChromeOptions()
