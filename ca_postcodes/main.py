@@ -625,7 +625,7 @@ def expand_address_abbreviations(address):
     # Determine the index of the word to replace (search from back to front)
     for i in range(start_index, -1, -1):
         for abbrev in REPLACEMENTS.keys():
-            if re.search(abbrev, ' ' + parts[i].strip() + ' '):
+            if re.search(abbrev, ' ' + parts[i].strip() + ' ', flags=re.IGNORECASE):
                 if target_index is not None:
                     # If another replacement is found, assume English style
                     style = 'English'
@@ -641,8 +641,8 @@ def expand_address_abbreviations(address):
     # Replace the target abbreviation if found
     if target_index is not None and target_index >= 0:
         for abbrev, full in REPLACEMENTS.items():
-            if re.search(abbrev, ' ' + parts[target_index] + ' '):
-                parts[target_index] = re.sub(abbrev, full.strip(), ' ' + parts[target_index] + ' ').strip()
+            if re.search(abbrev, ' ' + parts[target_index] + ' ', flags=re.IGNORECASE):
+                parts[target_index] = re.sub(abbrev, full.strip(), ' ' + parts[target_index] + ' ', flags=re.IGNORECASE).strip()
                 street_type = parts[target_index]                
                 break
         if street_type is None:
@@ -667,7 +667,7 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
     search_box.clear()
     driver.execute_script("arguments[0].value = arguments[1];", search_box, address)
     search_box.send_keys(Keys.SPACE);    
-    time.sleep(1)  # Allow time for the dropdown to populate
+    time.sleep(0.5)  # Allow time for the dropdown to populate
     
     try:
         # Wait until the parent element is present
@@ -685,9 +685,9 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
                 description = item.find_element(By.CSS_SELECTOR, ".pcadescription").text
                 if city_region in description:
                     pattern = f"^.*{re.escape(city_region)}"
-                    description = re.sub(pattern, "", description).strip()
+                    description = re.sub(pattern, "", description, flags=re.IGNORECASE).strip()
                     # Regex pattern to match the postal code format at the end of the string
-                    match = re.search(r"^(\w{3}\s\w{3})\s*", description)
+                    match = re.search(r"^(\w{3}\s\w{3})\s*", description, flags=re.IGNORECASE)
                     if match:
                         postal_code = match.group(0)
                         return postal_code
