@@ -490,7 +490,7 @@ def clean_address(unit, full_address):
     return full_address
 
 # Database connection and pagination
-def get_addresses_from_db(limit=1000, offset=0):    
+def get_addresses_from_db(selected_region, limit=1000, offset=0):    
     cur = CONN.cursor()
     cur.execute(
         f"""
@@ -529,7 +529,7 @@ def get_addresses_from_db(limit=1000, offset=0):
                         ELSE street_full_name
                     END AS processed_street_full_name
                 FROM public.mrag_ca_addresses
-                WHERE postal_code IS NULL AND is_valid = true AND region = 'Alberta' AND city = 'Calgary'
+                WHERE postal_code IS NULL AND is_valid = true AND region = '{selected_region}'
             )
             SELECT DISTINCT
                 concat(
@@ -701,13 +701,38 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
 
     return None  # Return None if no postal code is found
 
+def select_canadian_region():
+    regions = [
+        'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick',
+        'Northwest Territories', 'Nova Scotia', 'Ontario',
+        'Prince Edward Island', 'Quebec', 'Saskatchewan',
+        'Newfoundland and Labrador', 'Yukon', 'Nunavut'
+    ]
+
+    print("Select a canadian state by entering the corresponding number:")
+    for idx, region in enumerate(regions, 1):
+        print(f"{idx}. {region}")
+
+    while True:
+        try:
+            choice = int(input("Enter the number of your choice: "))
+            if 1 <= choice <= len(regions):
+                selected_region = regions[choice - 1]
+                return selected_region
+            else:
+                print(f"Please enter a number between 1 and {len(regions)}.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
 if __name__ == "__main__":
     driver = create_driver()
     limit = 1000
     offset = 0
 
+    selected_region = select_canadian_region()
+
     while True:
-        addresses = get_addresses_from_db(limit, offset)
+        addresses = get_addresses_from_db(selected_region, limit, offset)
         if not addresses:
             break
 
@@ -715,11 +740,10 @@ if __name__ == "__main__":
             print(f"Fetching postal code for: {address}")
             postal_code = get_postal_code(driver, address, full_address, street_full_name, city_region)
             if postal_code:
-                print(f"Found postal code: {postal_code} for address: {address}")
-                update_postal_code_in_db(street_no, street_full_name, city, region, postal_code)
+                print(f"Found postal code: {postal_code} for address: {address}")                
             else:
                 print(f"Could not find postal code for address: {address}")
-            
+            update_postal_code_in_db(street_no, street_full_name, city, region, postal_code)
         offset += limit
 
     driver.quit()
