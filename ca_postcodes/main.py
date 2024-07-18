@@ -567,26 +567,46 @@ def get_addresses_from_db(selected_region, limit=1000, offset=0):
 def update_postal_code_in_db(street_no, street_full_name, city, region, postal_code):
     cur = CONN.cursor()
     if postal_code is None:
-        cur.execute("""
-            UPDATE public.mrag_ca_addresses 
-            SET is_valid = %s 
-            WHERE street_no = %s 
-            AND street_full_name = %s 
-            AND city = %s 
-            AND region = %s
-        """, (False, street_no, street_full_name, city, region))
+        if street_no is None:
+            cur.execute("""
+                UPDATE public.mrag_ca_addresses 
+                SET is_valid = %s 
+                WHERE street_no IS NULL
+                AND street_full_name = %s 
+                AND city = %s 
+                AND region = %s
+            """, (False, street_full_name, city, region))
+        else:
+            cur.execute("""
+                UPDATE public.mrag_ca_addresses 
+                SET is_valid = %s 
+                WHERE street_no = %s 
+                AND street_full_name = %s 
+                AND city = %s 
+                AND region = %s
+            """, (False, street_no, street_full_name, city, region))
     else:
-        cur.execute("""
-            UPDATE public.mrag_ca_addresses 
-            SET postal_code = %s 
-            WHERE street_no = %s 
-            AND street_full_name = %s 
-            AND city = %s 
-            AND region = %s
-        """, (postal_code, street_no, street_full_name, city, region))
+        if street_no is None:
+            cur.execute("""
+                UPDATE public.mrag_ca_addresses 
+                SET postal_code = %s 
+                WHERE street_no IS NULL 
+                AND street_full_name = %s 
+                AND city = %s 
+                AND region = %s
+            """, (postal_code, street_full_name, city, region))
+        else:
+            cur.execute("""
+                UPDATE public.mrag_ca_addresses 
+                SET postal_code = %s 
+                WHERE street_no = %s 
+                AND street_full_name = %s 
+                AND city = %s 
+                AND region = %s
+            """, (postal_code, street_no, street_full_name, city, region))
     updated_rows = cur.rowcount
     if updated_rows == 0:
-        raise Exception("No rows were updated: ", street_no, ', ', street_full_name, ', ', city, ', ', region, ', ', postal_code)
+        raise Exception("No rows were updated: ", street_no, street_full_name, city, region, postal_code)
     CONN.commit()
     cur.close()
     return updated_rows    
@@ -694,7 +714,7 @@ def get_postal_code(driver, address, full_address, street_full_name, city_region
                     match = re.search(r"^(\w{3}\s\w{3})\s*", description, flags=re.IGNORECASE)
                     if match:
                         postal_code = match.group(0)
-                        return postal_code
+                        return postal_code.strip().upper()
     except Exception as e:
         print(f"Error fetching postal code for {address}: {e}")
         return None
