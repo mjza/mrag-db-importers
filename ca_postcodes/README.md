@@ -90,45 +90,56 @@ python main.py
 Please note if you face we an error like the following, it means you need to download a newer version of `chromedriver` or on the other word update it. 
 
 ```bash
-C:\Users\mahdi\Git\GitHub\Automated-US-Visa-Appointment-Finder>US_Visa_Appointment_Bot.exe
+C:\Users\mahdi\Git\GitHub\Automated-US-Visa-Appointment-Finder>python main.py
 Traceback (most recent call last):
-  File "US_Visa_Appointment_Bot.py", line 303, in <module>
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\main.py", line 748, in <module>
     driver = create_driver()
              ^^^^^^^^^^^^^^^
-  File "US_Visa_Appointment_Bot.py", line 156, in create_driver
-    driver = Chrome(options=options)
-             ^^^^^^^^^^^^^^^^^^^^^^^
-  File "selenium\webdriver\chrome\webdriver.py", line 70, in __init__
-  File "selenium\webdriver\chromium\webdriver.py", line 92, in __init__
-  File "selenium\webdriver\remote\webdriver.py", line 275, in __init__
-  File "selenium\webdriver\remote\webdriver.py", line 365, in start_session
-  File "selenium\webdriver\remote\webdriver.py", line 430, in execute
-  File "selenium\webdriver\remote\errorhandler.py", line 247, in check_response
-selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 121
-Current browser version is 123.0.6312.58 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\main.py", line 620, in create_driver
+    driver = webdriver.Chrome(service=service, options=options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 45, in __init__
+    super().__init__(
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 66, in __init__
+    super().__init__(command_executor=executor, options=options)
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 212, in 
+__init__
+    self.start_session(capabilities)
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 299, in 
+start_session
+    response = self.execute(Command.NEW_SESSION, caps)["value"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 354, in 
+execute
+    self.error_handler.check_response(response)
+  File "C:\Users\mahdi\Git\GitHub\mrag-db-importers\ca_postcodes\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, 
+in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 126
+Current browser version is 128.0.6613.84 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
 Stacktrace:
-        GetHandleVerifier [0x00007FF605A55E42+3538674]
-        (No symbol) [0x00007FF605674C02]
-        (No symbol) [0x00007FF605525AEB]
-        (No symbol) [0x00007FF60555C512]
-        (No symbol) [0x00007FF60555B872]
-        (No symbol) [0x00007FF605555106]
-        (No symbol) [0x00007FF6055521C8]
-        (No symbol) [0x00007FF6055994B9]
-        (No symbol) [0x00007FF60558EE53]
-        (No symbol) [0x00007FF60555F514]
-        (No symbol) [0x00007FF605560631]
-        GetHandleVerifier [0x00007FF605A86CAD+3738973]
-        GetHandleVerifier [0x00007FF605ADC506+4089270]
-        GetHandleVerifier [0x00007FF605AD4823+4057299]
-        GetHandleVerifier [0x00007FF6057A5C49+720121]
-        (No symbol) [0x00007FF60568126F]
-        (No symbol) [0x00007FF60567C304]
-        (No symbol) [0x00007FF60567C432]
-        (No symbol) [0x00007FF60566BD04]
-        BaseThreadInitThunk [0x00007FFFEEE27344+20]
-        RtlUserThreadStart [0x00007FFFF03626B1+33]
+        GetHandleVerifier [0x00007FF694DDEEA2+31554]
+        (No symbol) [0x00007FF694D57ED9]
+        (No symbol) [0x00007FF694C1872A]
+        (No symbol) [0x00007FF694C56ED2]
+        (No symbol) [0x00007FF694C56008]
+        (No symbol) [0x00007FF694C4FCC8]
+        (No symbol) [0x00007FF694C4BB3B]
+        (No symbol) [0x00007FF694C98794]
+        (No symbol) [0x00007FF694C97DF0]
+        (No symbol) [0x00007FF694C8CDD3]
+        (No symbol) [0x00007FF694C5A33B]
+        (No symbol) [0x00007FF694C5AED1]
+        GetHandleVerifier [0x00007FF6950E8B1D+3217341]
+        GetHandleVerifier [0x00007FF695135AE3+3532675]
+        GetHandleVerifier [0x00007FF69512B0E0+3489152]
+        GetHandleVerifier [0x00007FF694E8E776+750614]
+        (No symbol) [0x00007FF694D6375F]
+        (No symbol) [0x00007FF694D5EB14]
+        (No symbol) [0x00007FF694D5ECA2]
+        (No symbol) [0x00007FF694D4E16F]
+        BaseThreadInitThunk [0x00007FFE0F3D7374+20]
+        RtlUserThreadStart [0x00007FFE0FE7CC91+33]
 
-[19088] Failed to execute script 'US_Visa_Appointment_Bot' due to unhandled exception!
 ```
 
